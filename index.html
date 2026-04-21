@@ -6,6 +6,7 @@
 <title>Baralho Cigano ✦ Oráculo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* ===== RESET ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -768,6 +769,116 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--gold-d); border-radius: 4px; }
 
+/* ===== QUESTION GUIDANCE ===== */
+.q-guidance {
+  background: rgba(201,160,80,.05);
+  border: 1px solid rgba(201,160,80,.12);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+.q-guidance-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.q-guidance-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text2);
+}
+.q-guidance-text strong {
+  color: var(--gold);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* ===== LARA BUTTON ===== */
+.lara-section {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 20px;
+}
+
+.btn-lara {
+  width: 100%;
+  background: linear-gradient(135deg, #0d2e18, #1a5c30, #0d2e18);
+  border: 1px solid rgba(40,200,100,.3);
+  color: #a8f0c0;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: .3em;
+  padding: 18px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .35s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-lara::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(40,200,100,.08), transparent);
+  transform: translateX(-100%);
+  transition: transform .6s;
+}
+.btn-lara:hover::before { transform: translateX(100%); }
+.btn-lara:hover {
+  border-color: rgba(40,200,100,.6);
+  box-shadow: 0 0 36px rgba(40,200,100,.2);
+  color: #d0ffe0;
+}
+.btn-lara:disabled { opacity: .5; cursor: not-allowed; }
+
+.lara-info {
+  margin-top: 12px;
+  text-align: center;
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.6;
+}
+
+/* Capture overlay */
+#capture-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+#capture-overlay.show { display: flex; }
+.capture-msg {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: .3em;
+  color: rgba(40,200,100,.9);
+}
+.capture-orbs { display: flex; gap: 8px; }
+.capture-orb {
+  width: 9px; height: 9px;
+  background: rgba(40,200,100,.8);
+  border-radius: 50%;
+  animation: orbPulse 1.2s ease-in-out infinite;
+}
+.capture-orb:nth-child(2) { animation-delay: .2s; }
+.capture-orb:nth-child(3) { animation-delay: .4s; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 700px) {
   :root { --cw: 52px; --ch: 78px; --rw: 86px; --rh: 129px; }
@@ -794,12 +905,21 @@ body {
     </div>
 
     <div class="q-box">
+      <div class="q-guidance">
+        <div class="q-guidance-title">✦ &nbsp; Antes de perguntar</div>
+        <p class="q-guidance-text">
+          Quanto mais fundo você for na sua pergunta, mais precisa será a leitura.<br>
+          Não pergunte apenas <strong>"vai dar certo?"</strong> — conte o contexto.<br>
+          <strong>Quem está envolvido? O que você já sente sobre a situação? O que te preocupa de verdade?</strong><br>
+          As cartas respondem melhor quando a pergunta vem do coração.
+        </p>
+      </div>
       <span class="q-label">✦ &nbsp; Formule sua pergunta ao oráculo</span>
       <textarea
         id="q-input"
         class="q-input"
-        placeholder="O que os astros revelam para mim hoje?..."
-        rows="3"
+        placeholder="Ex: Estou num relacionamento que me deixa confusa. Sinto que ele se afastou mas não entendo o motivo. O que está acontecendo entre nós e para onde isso vai?"
+        rows="5"
       ></textarea>
       <button class="btn-start" onclick="startReading()">
         ✦ &nbsp; Iniciar Tiragem &nbsp; ✦
@@ -851,6 +971,18 @@ body {
       </p>
     </div>
 
+    <!-- CONSULTAR LARA -->
+    <div class="lara-section">
+      <button class="btn-lara" id="btn-lara" onclick="consultarLara()">
+        <span>🌿</span>
+        Consultar com a Cartomante Lara
+      </button>
+      <p class="lara-info">
+        A imagem da sua tiragem será baixada automaticamente<br>
+        e você será direcionada ao WhatsApp da Lara com sua pergunta
+      </p>
+    </div>
+
     <!-- AI INTERPRETATION -->
     <div class="ai-section">
 
@@ -883,6 +1015,16 @@ body {
   </div>
 
 </div><!-- /app -->
+
+<!-- Capture overlay -->
+<div id="capture-overlay">
+  <div class="capture-orbs">
+    <div class="capture-orb"></div>
+    <div class="capture-orb"></div>
+    <div class="capture-orb"></div>
+  </div>
+  <div class="capture-msg">Preparando sua tiragem...</div>
+</div>
 
 <script>
 /* ===========================
@@ -1316,22 +1458,20 @@ Faça a leitura completa, interpretando as combinações entre as cartas de cada
         messages: [
           {
             role: 'system',
-            content: `Você é uma leitora experiente de Baralho Cigano (Lenormand). Faça a interpretação das 9 cartas respondendo diretamente à pergunta feita.
+            content: `Você é uma leitora de Baralho Cigano Lenormand com anos de experiência. Sua leitura é humana, aprofundada e totalmente voltada para a situação real da pessoa.
 
-Método de leitura:
-- Leia as cartas pela sequência e combinação, não uma por uma
-- Cada par ou trio de cartas cria um significado conjunto — use isso
-- A pergunta é o centro de tudo: cada observação deve ter relação direta com o que foi perguntado
-- Linha 1 (cartas 1-3): origem ou contexto da situação
-- Linha 2 (cartas 4-6): o que está em movimento agora
-- Linha 3 (cartas 7-9): para onde caminha e o que fazer
+Como você lê:
+- Você absorve a pergunta e lê as cartas como se estivesse contando o que está acontecendo na vida daquela pessoa — não como uma análise, mas como uma conversa direta
+- A sequência das cartas forma uma narrativa: você lê o que uma carta faz com a próxima, como elas se influenciam, o que muda de uma linha pra outra
+- Você vai fundo no que as combinações revelam sobre a situação específica — sentimentos, bloqueios, dinâmicas, o que está por trás do que a pessoa perguntou
+- Nunca diz o nome das cartas no texto
+- Nunca repete a pergunta
+- Nunca usa frases prontas como "as cartas mostram", "o universo indica", "é importante lembrar"
+- Não faz introdução nem conclusão formal — começa já falando sobre a situação
 
-Estilo:
-- Escreva como alguém que realmente sabe ler o baralho — sem rodeios, sem frases genéricas
-- Não mencione os nomes das cartas no texto, apenas interprete o que elas mostram juntas
-- Não repita a pergunta, não faça introdução, comece direto pela leitura
-- Sem exagero espiritual, sem promessas vagas — seja honesta e precisa
-- 3 parágrafos, um por linha, em português claro e direto`
+Tom: próximo, humano, como alguém que realmente está vendo a situação da pessoa e fala com cuidado mas sem rodeios. Nem místico exagerado, nem frio. Natural.
+
+Formato: 3 parágrafos em português, um por linha do spread. Cada parágrafo aprofunda o que aquela linha revela sobre a pergunta. Sem markdown.`
           },
           { role: 'user', content: userPrompt }
         ]
@@ -1396,6 +1536,106 @@ Estilo:
       document.getElementById('ai-key-panel').scrollIntoView({ behavior: 'smooth' });
     }
     console.error(err);
+  }
+}
+
+/* ===========================
+   CONSULTAR LARA — WhatsApp
+=========================== */
+async function consultarLara() {
+  const btn     = document.getElementById('btn-lara');
+  const overlay = document.getElementById('capture-overlay');
+  const msg     = overlay.querySelector('.capture-msg');
+
+  btn.disabled = true;
+  overlay.classList.add('show');
+  msg.textContent = 'Capturando sua tiragem...';
+
+  // Build clean capture element
+  const captureEl = document.createElement('div');
+  captureEl.style.cssText = `
+    position:fixed;top:-9999px;left:-9999px;
+    background:#060410;padding:32px 28px;border-radius:14px;
+    border:1px solid #5a4218;width:400px;font-family:Georgia,serif;
+  `;
+
+  const titleEl = document.createElement('div');
+  titleEl.style.cssText = 'color:#c9a050;font-size:15px;letter-spacing:.2em;text-align:center;margin-bottom:6px;';
+  titleEl.textContent = '✦  Baralho Cigano  ✦';
+  captureEl.appendChild(titleEl);
+
+  const qEl = document.createElement('div');
+  qEl.style.cssText = 'color:#c0a870;font-size:12px;font-style:italic;text-align:center;margin-bottom:20px;line-height:1.5;padding:0 8px;';
+  qEl.textContent = `"${question}"`;
+  captureEl.appendChild(qEl);
+
+  const gridEl = document.createElement('div');
+  gridEl.style.cssText = 'display:grid;grid-template-columns:repeat(3,110px);gap:12px;justify-content:center;margin-bottom:16px;';
+
+  pickedCards.forEach(card => {
+    const cell = document.createElement('div');
+    cell.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:5px;';
+    const img = document.createElement('img');
+    img.src = `${card.id}.jpeg`;
+    img.style.cssText = 'width:110px;height:165px;object-fit:cover;border-radius:7px;border:1px solid #5a4218;display:block;';
+    img.crossOrigin = 'anonymous';
+    const name = document.createElement('div');
+    name.style.cssText = 'color:#c9a050;font-size:10px;letter-spacing:.1em;text-align:center;';
+    name.textContent = card.name;
+    cell.appendChild(img);
+    cell.appendChild(name);
+    gridEl.appendChild(cell);
+  });
+  captureEl.appendChild(gridEl);
+
+  const labelsEl = document.createElement('div');
+  labelsEl.style.cssText = 'display:flex;justify-content:space-around;color:#6a5830;font-size:10px;letter-spacing:.15em;';
+  ['Passado','Presente','Futuro'].forEach(l => {
+    const s = document.createElement('span'); s.textContent = l; labelsEl.appendChild(s);
+  });
+  captureEl.appendChild(labelsEl);
+  document.body.appendChild(captureEl);
+
+  // Wait for images
+  const imgs = captureEl.querySelectorAll('img');
+  await Promise.all(Array.from(imgs).map(img =>
+    img.complete ? Promise.resolve()
+    : new Promise(r => { img.onload = r; img.onerror = r; })
+  ));
+
+  msg.textContent = 'Gerando imagem...';
+
+  const cardNames = pickedCards.map((c, i) => `${i+1}. ${c.name}`).join('\n');
+  const waText = encodeURIComponent(
+`Olá Lara! Gostaria de uma consulta 🃏\n\n*Minha pergunta:*\n${question}\n\n*Cartas tiradas (em ordem):*\n${cardNames}\n\n_Segue em anexo a imagem da tiragem._`
+  );
+
+  try {
+    const canvas = await html2canvas(captureEl, {
+      backgroundColor: '#060410', scale: 2,
+      useCORS: true, allowTaint: true, logging: false
+    });
+    document.body.removeChild(captureEl);
+
+    msg.textContent = 'Baixando imagem...';
+    const link = document.createElement('a');
+    link.download = 'tiragem-baralho-cigano.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    msg.textContent = 'Abrindo WhatsApp...';
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      btn.disabled = false;
+      window.open(`https://wa.me/5553991359285?text=${waText}`, '_blank');
+    }, 1000);
+
+  } catch (err) {
+    if (document.body.contains(captureEl)) document.body.removeChild(captureEl);
+    overlay.classList.remove('show');
+    btn.disabled = false;
+    console.error('Captura falhou, abrindo WhatsApp sem imagem:', err);
+    window.open(`https://wa.me/5553991359285?text=${waText}`, '_blank');
   }
 }
 </script>
