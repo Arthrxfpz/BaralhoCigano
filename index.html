@@ -52,9 +52,48 @@ body {
   min-height: 100vh;
 }
 
+/* ===== TOP NAV ===== */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 20px;
+  background: linear-gradient(to bottom, rgba(6,4,16,.98) 80%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text3);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .45em;
+  text-transform: uppercase;
+  padding: 9px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all .3s;
+}
+.nav-btn:hover { color: var(--text2); }
+.nav-btn.active {
+  background: rgba(201,160,80,.08);
+  border-color: var(--gold-d);
+  color: var(--gold);
+}
+
 /* ===== PHASES ===== */
 .phase { display: none; }
 .phase.active { display: flex; }
+
+/* padding for top nav */
+#p1, #p2, #p3, #p-cards {
+  padding-top: 72px;
+}
 
 /* ===== PHASE 1 — QUESTION ===== */
 #p1 {
@@ -62,7 +101,9 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 40px 20px;
+  padding-bottom: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
   gap: 0;
 }
 
@@ -167,7 +208,9 @@ body {
 #p2 {
   flex-direction: column;
   align-items: center;
-  padding: 36px 16px 60px;
+  padding-bottom: 60px;
+  padding-left: 16px;
+  padding-right: 16px;
   min-height: 100vh;
   gap: 0;
 }
@@ -287,7 +330,6 @@ body {
   overflow: hidden;
 }
 
-/* Back face */
 .cb {
   background: linear-gradient(155deg, #1c0a38, #0c0420, #1a0830);
   border: 1.5px solid var(--gold-d);
@@ -321,7 +363,6 @@ body {
   border-radius: 2px;
 }
 
-/* Front face */
 .cfr {
   transform: rotateY(180deg);
   background: #0a0416;
@@ -332,24 +373,16 @@ body {
   display: block;
 }
 
-/* Selectable hover */
-.cw.sel:hover .ci {
-  transform: translateY(-5px);
-}
+.cw.sel:hover .ci { transform: translateY(-5px); }
 .cw.sel:hover .cb {
   border-color: var(--gold);
   box-shadow: 0 0 18px rgba(201,160,80,.4), 0 -3px 0 0 var(--gold);
   cursor: pointer;
 }
 
-/* Picked state */
-.cw.picked .cb {
-  opacity: .3;
-  border-color: var(--gold);
-}
+.cw.picked .cb { opacity: .3; border-color: var(--gold); }
 .cw.picked { cursor: default !important; }
 
-/* Shuffle anim */
 @keyframes shuffleAnim {
   0%   { transform: rotate(0deg) translate(0,0) scale(1); }
   20%  { transform: rotate(var(--sr)) translate(var(--sx), var(--sy)) scale(.88); }
@@ -357,9 +390,7 @@ body {
   80%  { transform: rotate(calc(var(--sr)*.2)) translate(calc(var(--sx)*.1), calc(var(--sy)*-.1)) scale(.98); }
   100% { transform: rotate(0deg) translate(0,0) scale(1); }
 }
-.cw.anim-shuffle .ci {
-  animation: shuffleAnim .9s cubic-bezier(.4,0,.2,1);
-}
+.cw.anim-shuffle .ci { animation: shuffleAnim .9s cubic-bezier(.4,0,.2,1); }
 
 /* ===== READING AREA ===== */
 #reading-area {
@@ -451,7 +482,6 @@ body {
   line-height: 1.3;
 }
 
-/* Flip-in for reading cards */
 @keyframes cardReveal {
   0%   { transform: rotateY(90deg) scale(.85); opacity: 0; }
   60%  { transform: rotateY(-8deg); opacity: 1; }
@@ -468,7 +498,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 48px 16px 80px;
+  padding-bottom: 80px;
+  padding-left: 16px;
+  padding-right: 16px;
   min-height: 100vh;
   gap: 0;
 }
@@ -535,7 +567,6 @@ body {
   text-align: center;
 }
 
-/* Deck bottom */
 .deck-bottom {
   max-width: 320px;
   text-align: center;
@@ -547,12 +578,7 @@ body {
   box-shadow: 0 0 40px rgba(201,160,80,.06);
 }
 
-.deck-bottom-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
-  opacity: .7;
-}
-
+.deck-bottom-icon { font-size: 28px; margin-bottom: 10px; opacity: .7; }
 .deck-bottom-text {
   font-family: 'Crimson Pro', serif;
   font-style: italic;
@@ -578,14 +604,13 @@ body {
 }
 .btn-nova:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ===== AI INTERPRETATION ===== */
+/* ===== AI SECTION ===== */
 .ai-section {
   width: 100%;
   max-width: 680px;
   margin: 0 auto 40px;
 }
 
-/* Key setup panel */
 .ai-key-panel {
   background: linear-gradient(160deg, rgba(20,8,50,.97), rgba(6,2,16,.99));
   border: 1px solid rgba(180,130,255,.2);
@@ -608,16 +633,8 @@ body {
   line-height: 1.6;
   margin-bottom: 16px;
 }
-.ai-key-desc a {
-  color: rgba(180,130,255,.85);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.ai-key-row {
-  display: flex;
-  gap: 10px;
-  align-items: stretch;
-}
+.ai-key-desc a { color: rgba(180,130,255,.85); text-decoration: underline; text-underline-offset: 3px; }
+.ai-key-row { display: flex; gap: 10px; align-items: stretch; }
 .ai-key-input {
   flex: 1;
   background: rgba(0,0,0,.5);
@@ -682,11 +699,7 @@ body {
   transition: transform .6s;
 }
 .btn-ai:hover::before { transform: translateX(100%); }
-.btn-ai:hover {
-  border-color: rgba(180,130,255,.6);
-  box-shadow: 0 0 36px rgba(160,100,255,.25);
-  color: #eddcff;
-}
+.btn-ai:hover { border-color: rgba(180,130,255,.6); box-shadow: 0 0 36px rgba(160,100,255,.25); color: #eddcff; }
 .btn-ai:disabled { opacity: .5; cursor: not-allowed; }
 .ai-icon { font-size: 18px; }
 
@@ -764,40 +777,6 @@ body {
   40% { transform: scale(1.1); opacity: 1; }
 }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gold-d); border-radius: 4px; }
-
-/* ===== QUESTION GUIDANCE ===== */
-.q-guidance {
-  background: rgba(201,160,80,.05);
-  border: 1px solid rgba(201,160,80,.12);
-  border-radius: 8px;
-  padding: 14px 18px;
-  margin-bottom: 20px;
-}
-.q-guidance-title {
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-.q-guidance-text {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: 14.5px;
-  line-height: 1.7;
-  color: var(--text2);
-}
-.q-guidance-text strong {
-  color: var(--gold);
-  font-style: normal;
-  font-weight: 400;
-}
-
 /* ===== LARA BUTTON ===== */
 .lara-section {
   width: 100%;
@@ -833,11 +812,7 @@ body {
   transition: transform .6s;
 }
 .btn-lara:hover::before { transform: translateX(100%); }
-.btn-lara:hover {
-  border-color: rgba(40,200,100,.6);
-  box-shadow: 0 0 36px rgba(40,200,100,.2);
-  color: #d0ffe0;
-}
+.btn-lara:hover { border-color: rgba(40,200,100,.6); box-shadow: 0 0 36px rgba(40,200,100,.2); color: #d0ffe0; }
 .btn-lara:disabled { opacity: .5; cursor: not-allowed; }
 
 .lara-info {
@@ -850,7 +825,32 @@ body {
   line-height: 1.6;
 }
 
-/* Capture overlay */
+/* ===== QUESTION GUIDANCE ===== */
+.q-guidance {
+  background: rgba(201,160,80,.05);
+  border: 1px solid rgba(201,160,80,.12);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+.q-guidance-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.q-guidance-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text2);
+}
+.q-guidance-text strong { color: var(--gold); font-style: normal; font-weight: 400; }
+
+/* ===== CAPTURE OVERLAY ===== */
 #capture-overlay {
   position: fixed;
   inset: 0;
@@ -879,21 +879,504 @@ body {
 .capture-orb:nth-child(2) { animation-delay: .2s; }
 .capture-orb:nth-child(3) { animation-delay: .4s; }
 
+/* ===================================================================
+   PHASE CARTAS — CARD LIBRARY
+=================================================================== */
+#p-cards {
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.cards-header {
+  text-align: center;
+  margin-bottom: 36px;
+  width: 100%;
+}
+
+.cards-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(22px, 4vw, 36px);
+  color: var(--gold2);
+  text-shadow: 0 0 40px rgba(201,160,80,.4);
+  margin-bottom: 6px;
+}
+
+.cards-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* Search bar */
+.cards-search-wrap {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+.cards-search {
+  width: 100%;
+  background: rgba(0,0,0,.4);
+  border: 1px solid var(--gold-d);
+  border-radius: 30px;
+  color: var(--text);
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  padding: 12px 20px 12px 44px;
+  outline: none;
+  transition: border-color .3s, box-shadow .3s;
+}
+.cards-search:focus {
+  border-color: rgba(201,160,80,.45);
+  box-shadow: 0 0 20px rgba(201,160,80,.08);
+}
+.cards-search::placeholder { color: var(--text3); font-style: italic; }
+.cards-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Category filter pills */
+.cat-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  max-width: 860px;
+  width: 100%;
+}
+
+.cat-pill {
+  background: rgba(0,0,0,.3);
+  border: 1px solid var(--gold-d);
+  color: var(--text3);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .25s;
+}
+.cat-pill:hover { border-color: var(--gold); color: var(--text2); }
+.cat-pill.active {
+  background: rgba(201,160,80,.12);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Library grid */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.lib-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  group: true;
+  transition: transform .25s;
+}
+
+.lib-card:hover { transform: translateY(-4px); }
+
+.lib-card-img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gold-d);
+  background: linear-gradient(155deg, #1c0a38, #0c0420);
+  position: relative;
+  transition: border-color .25s, box-shadow .25s;
+}
+
+.lib-card:hover .lib-card-img {
+  border-color: var(--gold);
+  box-shadow: 0 8px 32px rgba(201,160,80,.2), 0 0 0 1px rgba(201,160,80,.1);
+}
+
+.lib-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lib-card-num {
+  position: absolute;
+  top: 5px; left: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  color: rgba(201,160,80,.5);
+  letter-spacing: .1em;
+}
+
+.lib-card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--gold);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.lib-card-kw {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lib-card.hidden { display: none; }
+
+/* ===================================================================
+   CARD DETAIL MODAL
+=================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4,2,12,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 500;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.94) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal {
+  background: linear-gradient(150deg, #120630 0%, #0a0420 50%, #130830 100%);
+  border: 1px solid var(--gold-d);
+  border-radius: 16px;
+  max-width: 740px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 0 100px rgba(201,160,80,.08), 0 40px 80px rgba(0,0,0,.7);
+  animation: modalIn .4s cubic-bezier(.3,0,.2,1) forwards;
+  margin: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px; right: 20px;
+  background: transparent;
+  border: 1px solid var(--gold-d);
+  color: var(--text3);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  line-height: 1;
+}
+.modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+.modal-top {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.modal-img-wrap {
+  flex-shrink: 0;
+  width: 130px;
+}
+.modal-img-wrap img {
+  width: 130px;
+  height: 195px;
+  object-fit: cover;
+  border-radius: 9px;
+  border: 1px solid var(--gold-d);
+  box-shadow: 0 8px 40px rgba(0,0,0,.6);
+  display: block;
+}
+.modal-img-placeholder {
+  width: 130px;
+  height: 195px;
+  background: linear-gradient(155deg, #1c0a38, #0c0420);
+  border-radius: 9px;
+  border: 1px solid var(--gold-d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  opacity: .4;
+}
+
+.modal-info { flex: 1; min-width: 0; }
+
+.modal-num {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: .4em;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+
+.modal-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(22px, 4vw, 32px);
+  color: var(--gold2);
+  text-shadow: 0 0 30px rgba(201,160,80,.35);
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.modal-kw-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.modal-kw-tag {
+  background: rgba(201,160,80,.1);
+  border: 1px solid rgba(201,160,80,.2);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.modal-element {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+
+.modal-summary {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text2);
+}
+
+/* Tabs inside modal */
+.modal-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--gold-d);
+  margin-bottom: 24px;
+}
+
+.modal-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text3);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: all .25s;
+  margin-bottom: -1px;
+}
+.modal-tab:hover { color: var(--text2); }
+.modal-tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.modal-tab-content { display: none; }
+.modal-tab-content.active { display: block; }
+
+/* Tab content styling */
+.meaning-block {
+  margin-bottom: 20px;
+}
+.meaning-block-title {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.meaning-block-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold-d), transparent);
+}
+.meaning-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  line-height: 1.78;
+  color: var(--text);
+}
+
+/* Combinations */
+.combos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.combo-item {
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(201,160,80,.1);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.combo-card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.combo-meaning {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+/* Polarity indicators */
+.polarity-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.polarity-box {
+  flex: 1;
+  background: rgba(0,0,0,.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.polarity-box.pos { border: 1px solid rgba(80,200,120,.2); }
+.polarity-box.neg { border: 1px solid rgba(200,60,60,.2); }
+.polarity-title {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.polarity-box.pos .polarity-title { color: rgba(100,220,140,.6); }
+.polarity-box.neg .polarity-title { color: rgba(220,100,100,.6); }
+.polarity-text {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text2);
+}
+
+/* Nav arrows inside modal */
+.modal-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gold-d);
+}
+
+.modal-nav-btn {
+  background: transparent;
+  border: 1px solid var(--gold-d);
+  color: var(--text3);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: .3em;
+  padding: 9px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .25s;
+  text-transform: uppercase;
+}
+.modal-nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+.modal-nav-btn:disabled { opacity: .25; cursor: not-allowed; }
+
+.modal-nav-indicator {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .3em;
+  color: var(--text3);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold-d); border-radius: 4px; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 700px) {
   :root { --cw: 52px; --ch: 78px; --rw: 86px; --rh: 129px; }
   #card-grid { grid-template-columns: repeat(6, var(--cw)); }
   .q-box { padding: 28px 22px; }
+  .modal { padding: 28px 20px; }
+  .modal-top { flex-direction: column; align-items: center; gap: 20px; }
+  .modal-info { text-align: center; }
+  .modal-kw-wrap { justify-content: center; }
+  .combos-grid { grid-template-columns: 1fr; }
+  .library-grid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 12px; }
 }
 @media (max-width: 420px) {
   :root { --cw: 44px; --ch: 66px; --rw: 78px; --rh: 117px; }
   #card-grid { grid-template-columns: repeat(6, var(--cw)); gap: 5px; }
+  .polarity-row { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
 <canvas id="star-canvas"></canvas>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <button class="nav-btn active" id="nav-oraculo" onclick="navTo('oraculo')">✦ Oráculo</button>
+  <button class="nav-btn" id="nav-cartas" onclick="navTo('cartas')">🃏 Cartas</button>
+</nav>
 
 <div class="app">
 
@@ -903,7 +1386,6 @@ body {
       <div class="logo-title">Baralho Cigano</div>
       <div class="logo-sub">✦ &nbsp; O r á c u l o &nbsp; ✦</div>
     </div>
-
     <div class="q-box">
       <div class="q-guidance">
         <div class="q-guidance-title">✦ &nbsp; Antes de perguntar</div>
@@ -915,44 +1397,29 @@ body {
         </p>
       </div>
       <span class="q-label">✦ &nbsp; Formule sua pergunta ao oráculo</span>
-      <textarea
-        id="q-input"
-        class="q-input"
+      <textarea id="q-input" class="q-input"
         placeholder="Ex: Estou num relacionamento que me deixa confusa. Sinto que ele se afastou mas não entendo o motivo. O que está acontecendo entre nós e para onde isso vai?"
-        rows="5"
-      ></textarea>
-      <button class="btn-start" onclick="startReading()">
-        ✦ &nbsp; Iniciar Tiragem &nbsp; ✦
-      </button>
+        rows="5"></textarea>
+      <button class="btn-start" onclick="startReading()">✦ &nbsp; Iniciar Tiragem &nbsp; ✦</button>
     </div>
   </div>
 
   <!-- ====== PHASE 2: SHUFFLE + SELECT ====== -->
   <div id="p2" class="phase">
-
     <div class="rd-header">
       <p class="rd-question">✦ &nbsp;<em id="q-shown"></em>&nbsp; ✦</p>
       <p class="rd-phase-label" id="phase-sub">Concentre-se em sua pergunta e embaralhe as cartas</p>
     </div>
-
-    <button class="btn-shuffle" id="btn-shuffle" onclick="doShuffle()">
-      ✦ &nbsp; Embaralhar as Cartas &nbsp; ✦
-    </button>
-
+    <button class="btn-shuffle" id="btn-shuffle" onclick="doShuffle()">✦ &nbsp; Embaralhar as Cartas &nbsp; ✦</button>
     <div id="spread-wrap">
-      <p class="spread-label">
-        Escolha suas cartas com intenção
-        <span class="counter-badge" id="ctr">0 / 9</span>
-      </p>
+      <p class="spread-label">Escolha suas cartas com intenção <span class="counter-badge" id="ctr">0 / 9</span></p>
       <div id="card-grid"></div>
     </div>
-
     <div id="reading-area">
       <div class="divider"><span>✦</span></div>
       <p class="reading-label">✦ &nbsp; Suas cartas reveladas &nbsp; ✦</p>
       <div id="reading-grid"></div>
     </div>
-
   </div>
 
   <!-- ====== PHASE 3: COMPLETE ====== -->
@@ -965,34 +1432,20 @@ body {
     <div id="final-grid"></div>
     <div class="deck-bottom">
       <div class="deck-bottom-icon">🃏</div>
-      <p class="deck-bottom-text">
-        O fundo do baralho testemunhou sua jornada.<br>
-        As forças reveladas guiam o seu caminho.
-      </p>
+      <p class="deck-bottom-text">O fundo do baralho testemunhou sua jornada.<br>As forças reveladas guiam o seu caminho.</p>
     </div>
-
-    <!-- CONSULTAR LARA -->
     <div class="lara-section">
       <button class="btn-lara" id="btn-lara" onclick="consultarLara()">
-        <span>🌿</span>
-        Consultar com a Cartomante Lara
+        <span>🌿</span> Consultar com a Cartomante Lara
       </button>
-      <p class="lara-info">
-        A imagem da sua tiragem será baixada automaticamente<br>
-        e você será direcionada ao WhatsApp da Lara com sua pergunta
-      </p>
+      <p class="lara-info">A imagem da sua tiragem será baixada automaticamente<br>e você será direcionada ao WhatsApp da Lara com sua pergunta</p>
     </div>
-
-    <!-- AI INTERPRETATION -->
     <div class="ai-section">
-
-      <!-- Key setup -->
       <div class="ai-key-panel" id="ai-key-panel">
         <div class="ai-key-title">🔮 &nbsp; Interpretação por Inteligência Artificial</div>
         <p class="ai-key-desc">
           Para usar a IA, você precisa de uma chave <strong>Groq</strong> — gratuita, sem cartão de crédito.<br>
           <a href="https://console.groq.com/keys" target="_blank">→ Criar chave grátis em console.groq.com</a>
-          &nbsp;(leva menos de 1 minuto)
         </p>
         <div class="ai-key-row">
           <input type="password" id="ai-key-input" class="ai-key-input" placeholder="Cole sua chave Groq aqui (gsk_...)" autocomplete="off" />
@@ -1000,73 +1453,900 @@ body {
         </div>
         <div class="ai-key-saved" id="ai-key-saved">✓ Chave salva — pronta para usar</div>
       </div>
-
       <button class="btn-ai" id="btn-ai" onclick="requestAI()">
-        <span class="ai-icon">🔮</span>
-        Interpretar com Inteligência Artificial
+        <span class="ai-icon">🔮</span> Interpretar com Inteligência Artificial
       </button>
       <div class="ai-box" id="ai-box">
         <div class="ai-box-label">✦ &nbsp; Interpretação do Oráculo</div>
         <div id="ai-content"></div>
       </div>
     </div>
-
     <button class="btn-nova" onclick="novaConsulta()">✦ &nbsp; Nova Consulta &nbsp; ✦</button>
+  </div>
+
+  <!-- ====== PHASE CARTAS: CARD LIBRARY ====== -->
+  <div id="p-cards" class="phase">
+    <div class="cards-header">
+      <div class="cards-title">Grimório das Cartas</div>
+      <div class="cards-sub">✦ &nbsp; As 36 Cartas do Baralho Cigano &nbsp; ✦</div>
+    </div>
+
+    <div class="cards-search-wrap">
+      <span class="cards-search-icon">✦</span>
+      <input type="text" class="cards-search" id="cards-search" placeholder="Buscar carta por nome ou significado..." oninput="filterCards()">
+    </div>
+
+    <div class="cat-filters" id="cat-filters">
+      <button class="cat-pill active" onclick="filterByCategory('all', this)">Todas</button>
+      <button class="cat-pill" onclick="filterByCategory('amor', this)">Amor</button>
+      <button class="cat-pill" onclick="filterByCategory('trabalho', this)">Trabalho</button>
+      <button class="cat-pill" onclick="filterByCategory('saude', this)">Saúde</button>
+      <button class="cat-pill" onclick="filterByCategory('desafio', this)">Desafio</button>
+      <button class="cat-pill" onclick="filterByCategory('sorte', this)">Sorte</button>
+      <button class="cat-pill" onclick="filterByCategory('espiritual', this)">Espiritual</button>
+    </div>
+
+    <div class="library-grid" id="library-grid"></div>
   </div>
 
 </div><!-- /app -->
 
+<!-- ===== CARD DETAIL MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-top">
+      <div class="modal-img-wrap">
+        <img id="modal-img" src="" alt="" onerror="this.style.display='none';document.getElementById('modal-img-placeholder').style.display='flex'">
+        <div class="modal-img-placeholder" id="modal-img-placeholder" style="display:none">🃏</div>
+      </div>
+      <div class="modal-info">
+        <div class="modal-num" id="modal-num"></div>
+        <div class="modal-name" id="modal-name"></div>
+        <div class="modal-kw-wrap" id="modal-kw-wrap"></div>
+        <div class="modal-element" id="modal-element"></div>
+        <p class="modal-summary" id="modal-summary"></p>
+      </div>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('geral', this)">Geral</button>
+      <button class="modal-tab" onclick="switchTab('amor', this)">Amor</button>
+      <button class="modal-tab" onclick="switchTab('trabalho', this)">Trabalho</button>
+      <button class="modal-tab" onclick="switchTab('saude', this)">Saúde</button>
+      <button class="modal-tab" onclick="switchTab('combos', this)">Combinações</button>
+    </div>
+
+    <div id="tab-geral" class="modal-tab-content active">
+      <div class="polarity-row">
+        <div class="polarity-box pos">
+          <div class="polarity-title">✦ Aspecto Positivo</div>
+          <p class="polarity-text" id="modal-pos"></p>
+        </div>
+        <div class="polarity-box neg">
+          <div class="polarity-title">⚠ Aspecto Desafiador</div>
+          <p class="polarity-text" id="modal-neg"></p>
+        </div>
+      </div>
+      <div class="meaning-block">
+        <div class="meaning-block-title">✦ Significado Geral</div>
+        <p class="meaning-text" id="modal-geral"></p>
+      </div>
+      <div class="meaning-block">
+        <div class="meaning-block-title">✦ Conselho da Carta</div>
+        <p class="meaning-text" id="modal-conselho"></p>
+      </div>
+    </div>
+
+    <div id="tab-amor" class="modal-tab-content">
+      <div class="meaning-block">
+        <div class="meaning-block-title">❤ Em Relacionamentos</div>
+        <p class="meaning-text" id="modal-amor"></p>
+      </div>
+      <div class="meaning-block">
+        <div class="meaning-block-title">✦ Para Quem Está Só</div>
+        <p class="meaning-text" id="modal-solteiro"></p>
+      </div>
+    </div>
+
+    <div id="tab-trabalho" class="modal-tab-content">
+      <div class="meaning-block">
+        <div class="meaning-block-title">💼 Carreira & Dinheiro</div>
+        <p class="meaning-text" id="modal-trabalho"></p>
+      </div>
+    </div>
+
+    <div id="tab-saude" class="modal-tab-content">
+      <div class="meaning-block">
+        <div class="meaning-block-title">🌿 Saúde & Energia Vital</div>
+        <p class="meaning-text" id="modal-saude"></p>
+      </div>
+    </div>
+
+    <div id="tab-combos" class="modal-tab-content">
+      <div class="meaning-block">
+        <div class="meaning-block-title">✦ Combinações Importantes</div>
+      </div>
+      <div class="combos-grid" id="modal-combos"></div>
+    </div>
+
+    <div class="modal-nav">
+      <button class="modal-nav-btn" id="modal-prev" onclick="navigateCard(-1)">← Anterior</button>
+      <span class="modal-nav-indicator" id="modal-nav-indicator"></span>
+      <button class="modal-nav-btn" id="modal-next" onclick="navigateCard(1)">Próxima →</button>
+    </div>
+  </div>
+</div>
+
 <!-- Capture overlay -->
 <div id="capture-overlay">
   <div class="capture-orbs">
-    <div class="capture-orb"></div>
-    <div class="capture-orb"></div>
-    <div class="capture-orb"></div>
+    <div class="capture-orb"></div><div class="capture-orb"></div><div class="capture-orb"></div>
   </div>
   <div class="capture-msg">Preparando sua tiragem...</div>
 </div>
 
 <script>
 /* ===========================
-   CARD DATA — 36 cartas
+   CARD DATA — 36 cartas com significados completos
 =========================== */
 const CARDS = [
-  { id:  1, name: "Cavaleiro",  kw: "Notícias, movimento, chegada" },
-  { id:  2, name: "Trevo",      kw: "Sorte, oportunidade, alegria" },
-  { id:  3, name: "Navio",      kw: "Viagem, comércio, distância" },
-  { id:  4, name: "Casa",       kw: "Lar, família, segurança" },
-  { id:  5, name: "Árvore",     kw: "Saúde, crescimento, raízes" },
-  { id:  6, name: "Nuvens",     kw: "Dúvidas, confusão, incerteza" },
-  { id:  7, name: "Cobra",      kw: "Traição, sabedoria, sedução" },
-  { id:  8, name: "Caixão",     kw: "Fim, transformação, renascimento" },
-  { id:  9, name: "Buquê",      kw: "Felicidade, presente, beleza" },
-  { id: 10, name: "Foice",      kw: "Corte, decisão, colheita" },
-  { id: 11, name: "Chicote",    kw: "Conflito, discussão, repetição" },
-  { id: 12, name: "Pássaros",   kw: "Conversas, ansiedade, casal" },
-  { id: 13, name: "Criança",    kw: "Novidade, inocência, início" },
-  { id: 14, name: "Raposa",     kw: "Astúcia, cautela, engano" },
-  { id: 15, name: "Urso",       kw: "Força, poder, autoridade" },
-  { id: 16, name: "Estrela",    kw: "Esperança, destino, inspiração" },
-  { id: 17, name: "Cegonha",    kw: "Mudança, chegada, novidade" },
-  { id: 18, name: "Cachorro",   kw: "Amizade, lealdade, confiança" },
-  { id: 19, name: "Torre",      kw: "Solidão, autoridade, isolamento" },
-  { id: 20, name: "Jardim",     kw: "Sociedade, encontros, público" },
-  { id: 21, name: "Montanha",   kw: "Obstáculo, bloqueio, desafio" },
-  { id: 22, name: "Caminhos",   kw: "Decisão, escolha, alternativas" },
-  { id: 23, name: "Ratos",      kw: "Perdas, estresse, deterioração" },
-  { id: 24, name: "Coração",    kw: "Amor, emoções, sentimentos" },
-  { id: 25, name: "Anel",       kw: "União, compromisso, ciclo" },
-  { id: 26, name: "Livro",      kw: "Segredos, conhecimento, estudo" },
-  { id: 27, name: "Carta",      kw: "Notícias, documento, mensagem" },
-  { id: 28, name: "Homem",      kw: "Masculino, parceiro, consultante" },
-  { id: 29, name: "Mulher",     kw: "Feminino, parceira, consultante" },
-  { id: 30, name: "Lírio",      kw: "Paz, harmonia, maturidade" },
-  { id: 31, name: "Sol",        kw: "Sucesso, vitalidade, clareza" },
-  { id: 32, name: "Lua",        kw: "Emoções, intuição, reconhecimento" },
-  { id: 33, name: "Chave",      kw: "Solução, destino, abertura" },
-  { id: 34, name: "Peixe",      kw: "Dinheiro, fluxo, abundância" },
-  { id: 35, name: "Âncora",     kw: "Estabilidade, trabalho, persistência" },
-  { id: 36, name: "Cruz",       kw: "Destino, fardo, espiritualidade" },
+  {
+    id: 1, name: "Cavaleiro", kw: "Notícias, movimento, chegada",
+    tags: ['trabalho'],
+    element: "Elemento: Ar · Energia: Ativa, rápida",
+    summary: "O Cavaleiro traz movimento e novidade. Representa a chegada de algo novo — uma mensagem, uma pessoa ou uma oportunidade que se aproxima com velocidade.",
+    keywords: ["Notícias", "Movimento", "Chegada", "Rapidez", "Mensageiro"],
+    pos: "Boas novas chegando logo. Movimento positivo, progresso rápido, resolução de situações pendentes.",
+    neg: "Notícias que perturbam ou precipitação excessiva. Impaciência que atrapalha resultados.",
+    geral: "O Cavaleiro é o mensageiro do baralho — ele raramente carrega o peso de uma situação, mas anuncia o que está por vir. A direção da carta indica o que chega (à esquerda) ou o que vai embora (à direita). A velocidade desta carta é um aviso: a situação se move rápido. Se estiver perto de cartas positivas, as notícias são boas. Se perto de cartas difíceis, prepare-se para um comunicado desconfortável. Em geral, ele representa uma pessoa jovem e ágil, ou alguém que traz informações importantes.",
+    conselho: "Esteja atento ao que está chegando. Não ignore mensagens ou sinais — este é um momento de receber, não de agir. Permita que as novidades se apresentem antes de tomar decisões.",
+    amor: "No amor, o Cavaleiro pode anunciar a chegada de uma nova pessoa interessante ou de notícias sobre um relacionamento existente. Se você está aguardando uma resposta de alguém, ela deve chegar em breve. Pode indicar também um relacionamento que se inicia de forma rápida e apaixonada.",
+    solteiro: "Uma nova pessoa está prestes a entrar na sua vida — possivelmente alguém jovem, ativo e cheio de energia. O encontro pode acontecer de forma inesperada, através de um amigo comum ou numa situação de movimento.",
+    trabalho: "Boas notícias profissionais se aproximam. Uma proposta, um resultado de entrevista, um contrato ou uma resposta há muito esperada deve chegar. O Cavaleiro também pode representar colegas ou parceiros jovens e dinâmicos.",
+    saude: "Indica recuperação rápida quando aparece perto de cartas de saúde. A energia do corpo está em movimento. Se combinado com cartas negativas, preste atenção a dores súbitas ou condições que aparecem de repente.",
+    combos: [
+      { card: "Carta (27)", meaning: "Correspondência chegando — um documento, e-mail ou mensagem importante" },
+      { card: "Coração (24)", meaning: "Declaração de amor ou notícias de um amante chegando" },
+      { card: "Nuvens (6)", meaning: "Notícias confusas ou contraditórias. Cuidado ao interpretar mensagens" },
+      { card: "Caixão (8)", meaning: "Fim de um ciclo chegando — notícias sobre término ou perda" },
+    ]
+  },
+  {
+    id: 2, name: "Trevo", kw: "Sorte, oportunidade, alegria",
+    tags: ['sorte'],
+    element: "Elemento: Terra · Energia: Expansiva, leve",
+    summary: "O Trevo é a carta da boa sorte passageira — aquela janela de oportunidade que aparece e precisa ser aproveitada rapidamente antes de fechar.",
+    keywords: ["Sorte", "Oportunidade", "Alegria", "Leveza", "Acaso"],
+    pos: "Sorte inesperada, pequenas alegrias, momentos de leveza que aliviam tensões.",
+    neg: "Sorte efêmera, oportunidade que passa rápido se não for aproveitada. Superficialidade.",
+    geral: "O Trevo de quatro folhas é universalmente associado à boa sorte, e no Baralho Cigano ele carrega exatamente esse significado — mas com um detalhe importante: é uma sorte pequena e passageira. Não é o grand jackpot, mas o bilhete premiado no mercadinho, a vaga de estacionamento na hora certa, o encontro fortuito que muda uma situação. Esta carta suaviza as cartas negativas ao redor e amplifica as positivas. Ela também representa momentos de descontração, risadas e alegria genuína.",
+    conselho: "Não deixe passar as oportunidades pequenas — às vezes são elas que abrem as grandes portas. Aproveite os momentos leves da vida sem análise excessiva. A sorte sorri para quem está presente.",
+    amor: "Pequenos momentos mágicos no relacionamento. Um jantar surpresa, uma mensagem fofa inesperada, um reencontro feliz. O Trevo traz leveza para relacionamentos tensos e alegria para os que já estão bem.",
+    solteiro: "Um encontro fortuito e encantador pode acontecer. Não force — deixe o acaso trabalhar. Uma situação aparentemente sem importância pode se tornar o início de algo especial.",
+    trabalho: "Pequenas vitórias e oportunidades profissionais surgindo. Um projeto menor pode trazer reconhecimento inesperado. Bom momento para apostas calculadas e decisões espontâneas no trabalho.",
+    saude: "Carta de alívio. Problemas de saúde encontram resolução mais fácil. Boa energia vital. Pode indicar uma recuperação que surpreende positivamente os médicos.",
+    combos: [
+      { card: "Sol (31)", meaning: "Grande sorte e sucesso pleno — combinação muito positiva" },
+      { card: "Nuvens (6)", meaning: "A sorte existe mas está escondida — você precisa olhar com mais atenção" },
+      { card: "Ratos (23)", meaning: "Atenção: o que parece sorte pode ser uma armadilha disfarçada" },
+      { card: "Estrela (16)", meaning: "Sorte e destino alinhados — um desejo antigo pode se realizar" },
+    ]
+  },
+  {
+    id: 3, name: "Navio", kw: "Viagem, comércio, distância",
+    tags: ['trabalho'],
+    element: "Elemento: Água · Energia: Expansiva, aventureira",
+    summary: "O Navio representa movimento em grande escala — viagens, negócios à distância, o estrangeiro e o desejo de partir para novos horizontes.",
+    keywords: ["Viagem", "Distância", "Comércio", "Estrangeiro", "Saudade"],
+    pos: "Viagem realizada, expansão de negócios, abertura para novas culturas e experiências.",
+    neg: "Distância dolorosa, separação geográfica, negócios que envolvem riscos ou incertezas.",
+    geral: "O Navio corta os mares entre o conhecido e o desconhecido. É a carta que empurra para fora da zona de conforto — literalmente. Pode representar uma viagem real, uma mudança de cidade ou país, ou negócios com elementos internacionais. É também a carta da saudade — de quem está longe, de quem partiu. Em alguns contextos, representa um desejo profundo de mudança, de partir, de recomeçar em outro lugar. O comércio e a troca também são domínios desta carta.",
+    conselho: "Abra-se para o que está além do familiar. Às vezes, a resposta que você procura está em outro lugar — literalmente ou metaforicamente. Não tenha medo de velejar para águas desconhecidas.",
+    amor: "Relacionamento à distância, amor por uma pessoa de outra cidade ou país. Pode indicar uma viagem a dois que renova o relacionamento ou uma separação temporária por questões de trabalho ou estudo.",
+    solteiro: "Um amor pode vir de longe — talvez de outra cidade, outro país ou encontrado numa viagem. Esteja aberto a conexões que transcendem a geografia.",
+    trabalho: "Oportunidades de negócios internacionais, viagens a trabalho, ou expansão da empresa para outros mercados. Pode indicar uma proposta de trabalho em outro lugar.",
+    saude: "Mudança de ares pode ser benéfica. Se enfrentando problemas de saúde, considere buscar uma segunda opinião em outro lugar. Viagens podem ter impacto positivo no bem-estar.",
+    combos: [
+      { card: "Casa (4)", meaning: "Mudança de residência ou moradia em outro país" },
+      { card: "Anel (25)", meaning: "Compromisso formalizado à distância ou viagem de lua de mel" },
+      { card: "Ratos (23)", meaning: "Negócios no exterior com perdas ou fraudes. Cuidado com contratos internacionais" },
+      { card: "Estrela (16)", meaning: "Viagem dos sonhos se realizando — destino especial e transformador" },
+    ]
+  },
+  {
+    id: 4, name: "Casa", kw: "Lar, família, segurança",
+    tags: ['amor'],
+    element: "Elemento: Terra · Energia: Protetora, estável",
+    summary: "A Casa representa tudo que é familiar, seguro e íntimo — o lar, a família, as raízes, os rituais domésticos que nos ancoram.",
+    keywords: ["Lar", "Família", "Segurança", "Privacidade", "Tradição"],
+    pos: "Ambiente familiar harmonioso, segurança emocional, proteção, sentimento de pertencimento.",
+    neg: "Problemas domésticos, conflitos familiares, apego excessivo ao passado ou à segurança.",
+    geral: "A Casa é o centro, o porto seguro onde tudo começa e termina. Representa não apenas o imóvel físico, mas o conceito de lar — a segurança emocional, os rituais familiares, as relações íntimas que escolhemos cultivar. As cartas ao redor revelam o que está acontecendo dentro desta casa. Com cartas positivas, o ambiente doméstico está harmonioso. Com cartas difíceis, há tensão ou conflito no lar. A Casa também pode indicar questões imobiliárias — compra, venda ou aluguel.",
+    conselho: "Cuide do seu lar interior — tanto a casa física quanto o seu espaço emocional. Às vezes a resposta está mais perto do que imagina, dentro das paredes que você já conhece.",
+    amor: "Indica desejo de construir um lar, de oficializar uma união ou de aprofundar um relacionamento para além do romance casual. Pode indicar que um relacionamento está prestes a dar um passo importante — morar junto, casar, ter filhos.",
+    solteiro: "O amor que você busca pode estar mais próximo do que imagina — talvez um vizinho, um amigo de longa data ou alguém do círculo familiar. Você também pode estar num período de preparar seu espaço interior para receber amor.",
+    trabalho: "Trabalho em casa, home office, negócio familiar ou imobiliário. Pode indicar que o ambiente de trabalho precisa de mais conforto e estabilidade.",
+    saude: "Ambiente doméstico influencia a saúde — para o bem ou para o mal. Cuidar do lar é cuidar de si. Bom momento para criar rotinas saudáveis em casa.",
+    combos: [
+      { card: "Navio (3)", meaning: "Mudança de casa ou moradia em outro lugar" },
+      { card: "Cachorro (18)", meaning: "Amigos chegando à sua casa, ou alguém de confiança entra em sua vida íntima" },
+      { card: "Chicote (11)", meaning: "Conflitos domésticos, brigas em família" },
+      { card: "Sol (31)", meaning: "Lar muito feliz, família unida, sucesso no ambiente doméstico" },
+    ]
+  },
+  {
+    id: 5, name: "Árvore", kw: "Saúde, crescimento, raízes",
+    tags: ['saude', 'espiritual'],
+    element: "Elemento: Terra · Energia: Lenta, profunda",
+    summary: "A Árvore é a carta da vida em seu desenvolvimento mais fundamental — saúde, crescimento lento e constante, raízes familiares e o karma que atravessa gerações.",
+    keywords: ["Saúde", "Crescimento", "Raízes", "Karma", "Lentidão"],
+    pos: "Saúde robusta, crescimento sólido e duradouro, conexão com as próprias raízes.",
+    neg: "Crescimento muito lento, questões de saúde crônicas, padrões familiares que se repetem.",
+    geral: "A Árvore cresce lentamente mas com força inabalável. É a carta mais ligada à saúde no baralho — tanto física quanto espiritual. Indica situações que levam tempo para se desenvolver e que têm raízes profundas. As cartas ao redor mostram em que área da vida esse crescimento está acontecendo. É também ligada ao karma familiar — padrões que se repetem de geração em geração, heranças espirituais e genéticas. Quando rodeada de cartas negativas, pode indicar questões de saúde que precisam de atenção.",
+    conselho: "Tenha paciência com os seus processos. O que tem raízes profundas não cai com o vento. Respeite os seus ritmos e não tente forçar o crescimento — ele virá no tempo certo.",
+    amor: "Um amor que cresce lentamente mas com profundidade. Relacionamento com futuro, com raízes. Pode indicar que o relacionamento atual tem potencial de longa duração se cultivado com paciência.",
+    solteiro: "O amor que você busca chegará, mas pode levar mais tempo do que espera. Enquanto isso, trabalhe no seu crescimento pessoal — é o que atrairá o relacionamento certo.",
+    trabalho: "Projetos de longo prazo e crescimento profissional gradual. Não espere resultados rápidos — o que está sendo construído agora tem bases sólidas. Bom para carreiras que exigem estudo prolongado.",
+    saude: "Carta principal de saúde no baralho. As cartas ao redor revelam o estado do corpo. Com cartas positivas, saúde excelente. Com cartas negativas, atenção a condições crônicas ou questões que precisam de acompanhamento médico.",
+    combos: [
+      { card: "Caixão (8)", meaning: "Doença ou fim de um ciclo de saúde — necessidade de cuidado médico" },
+      { card: "Sol (31)", meaning: "Saúde excelente, vitalidade plena, longevidade" },
+      { card: "Nuvens (6)", meaning: "Saúde incerta, diagnóstico confuso ou ansiedade sobre a saúde" },
+      { card: "Cruz (36)", meaning: "Karma familiar pesado, questões hereditárias de saúde ou espirituais" },
+    ]
+  },
+  {
+    id: 6, name: "Nuvens", kw: "Dúvidas, confusão, incerteza",
+    tags: ['desafio'],
+    element: "Elemento: Ar · Energia: Incerta, nebulosa",
+    summary: "As Nuvens representam a névoa que obscurece a visão — dúvidas, confusão, situações que não estão claras e a dificuldade de enxergar além das aparências.",
+    keywords: ["Confusão", "Dúvidas", "Incerteza", "Névoa", "Ocultamento"],
+    pos: "As nuvens passam — a tempestade é temporária e a clareza está por vir.",
+    neg: "Confusão profunda, engano, situações deliberadamente obscurecidas por outros.",
+    geral: "As Nuvens obscurecem tudo ao redor. No baralho, elas são uma das cartas mais complicadas de ler porque afetam o significado das cartas vizinhas — turva o que está claro, complica o que estava simples. O lado escuro da carta (geralmente a direita) indica onde a confusão é mais intensa. Perto de cartas muito positivas, as Nuvens apenas diminuem temporariamente o brilho. Perto de cartas muito negativas, aprofundam os problemas. Sempre pergunta: o que você não está enxergando claramente nesta situação?",
+    conselho: "Não tome decisões importantes enquanto a névoa não se dissipar. Busque mais informações antes de agir. Nem tudo o que parece claro é real — nem tudo que parece sombrio é definitivo.",
+    amor: "Confusão nos sentimentos, mal-entendidos no relacionamento. Um dos parceiros pode não estar sendo totalmente transparente. É um momento de comunicação — diga o que sente com clareza.",
+    solteiro: "Incerteza sobre o que você quer do amor. Pode haver alguém de interesse mas os sinais são confusos. Não invista profundamente até ter mais clareza.",
+    trabalho: "Situação profissional nebulosa — projetos sem direção clara, chefia com intenções não transparentes ou confusão sobre o rumo da carreira. Peça clareza por escrito.",
+    saude: "Diagnóstico impreciso ou sintomas confusos. Busque uma segunda opinião médica. A ansiedade pode estar criando ou agravando sintomas físicos.",
+    combos: [
+      { card: "Sol (31)", meaning: "A confusão se desfaz — clareza chegando após um período difícil" },
+      { card: "Cobra (7)", meaning: "Alguém está deliberadamente te confundindo ou escondendo informações" },
+      { card: "Livro (26)", meaning: "Segredos profundos, situação muito mais complexa do que aparece" },
+      { card: "Chave (33)", meaning: "A solução existe mas está escondida — você precisa investigar mais" },
+    ]
+  },
+  {
+    id: 7, name: "Cobra", kw: "Traição, sabedoria, sedução",
+    tags: ['desafio', 'amor'],
+    element: "Elemento: Fogo · Energia: Sedutora, perigosa",
+    summary: "A Cobra é dual por natureza — representa tanto a traição e o engano quanto a sabedoria profunda, a sexualidade e a transformação através do perigo.",
+    keywords: ["Traição", "Sabedoria", "Sedução", "Rival", "Astúcia"],
+    pos: "Sabedoria profunda, transformação através da experiência difícil, poder de sedução e presença.",
+    neg: "Traição, mentira, rival oculto, manipulação, inveja disfarçada de amizade.",
+    geral: "A Cobra sibilante anuncia que algo ou alguém no seu entorno não é o que parece. É uma das cartas de alerta mais importantes do baralho — ela pede vigilância, não paranoia. Representa uma mulher astuciosa e manipuladora (geralmente mais velha), um rival oculto, ou uma situação que parece boa mas guarda veneno. Ao mesmo tempo, a sabedoria da serpente é real — quem sobrevive ao encontro com ela sai transformado. Ela também carrega a energia da sexualidade e da sedução intensa.",
+    conselho: "Confie nos seus instintos — se algo parece errado, provavelmente está. Observe quem está ao seu redor com mais atenção. Às vezes o perigo vem de quem você menos espera.",
+    amor: "Ciúmes intensos, rivalidade amorosa ou um terceiro envolvido na situação. Pode indicar infidelidade ou alguém tentando interferir no seu relacionamento. Também pode representar a sedução intensa no início de um caso.",
+    solteiro: "Cuidado com alguém que parece perfeito demais. Pode haver um pretendente com intenções não claras. Observe antes de se aprofundar emocionalmente.",
+    trabalho: "Colega ou sócio que não age com honestidade. Alguém pode estar sabotando seu trabalho por trás das cenas. Documente tudo e proteja suas ideias.",
+    saude: "Pode indicar intoxicação, alergias ou questões relacionadas ao sistema digestivo e à pele. Cuidado com o que você consome — alimentos, bebidas e também influências.",
+    combos: [
+      { card: "Mulher (29)", meaning: "Uma mulher astuta e possivelmente mal-intencionada ao seu redor" },
+      { card: "Anel (25)", meaning: "Traição num relacionamento sério ou num contrato profissional" },
+      { card: "Cachorro (18)", meaning: "Um amigo que na verdade é seu rival — amizade falsa e perigosa" },
+      { card: "Livro (26)", meaning: "Segredos e traições bem escondidos que ainda serão revelados" },
+    ]
+  },
+  {
+    id: 8, name: "Caixão", kw: "Fim, transformação, renascimento",
+    tags: ['espiritual', 'saude'],
+    element: "Elemento: Terra · Energia: Transformadora, finalizadora",
+    summary: "O Caixão representa o fim de ciclos — e onde há fim, há renascimento. É uma carta de transformação profunda, não necessariamente de morte literal.",
+    keywords: ["Fim", "Transformação", "Renascimento", "Encerramento", "Luto"],
+    pos: "Libertação do que já não serve, encerramento saudável de ciclos, renovação profunda.",
+    neg: "Perdas dolorosas, doenças graves, situações que chegam ao fim de forma brusca.",
+    geral: "O Caixão é uma das cartas mais temidas, mas seu significado vai muito além da morte literal. Em 90% das leituras, ele representa o fim de algo — um relacionamento, uma fase de vida, um padrão de comportamento — seguido inevitavelmente por um recomeço. Onde uma porta fecha, outra se abre. A carta pergunta: o que precisa ser enterrado para que você possa renascer? Ao lado da Árvore (5), adquire significado de saúde. Sozinha, fala de transformação.",
+    conselho: "Aceite os fins. Lutar contra o que já está terminado só prolonga o sofrimento. Confie no ciclo — o que precisa morrer está criando espaço para algo mais verdadeiro nascer.",
+    amor: "Término de relacionamento ou de uma fase dentro dele. Pode ser doloroso, mas é necessário. Às vezes representa a morte de padrões tóxicos no casal — o relacionamento pode renascer transformado.",
+    solteiro: "Você ainda está processando uma perda amorosa do passado. É importante fazer esse luto completamente antes de buscar uma nova relação. A cura está em andamento.",
+    trabalho: "Demissão, fechamento de empresa, fim de um projeto importante. Também pode representar o encerramento necessário de uma parceria que não estava funcionando.",
+    saude: "Ao lado de cartas de saúde, atenção redobrada com o corpo. Pode indicar diagnósticos sérios que precisam de acompanhamento médico. Também representa tratamentos que eliminam o que está fazendo mal.",
+    combos: [
+      { card: "Árvore (5)", meaning: "Doença séria ou questão de saúde que merece atenção médica imediata" },
+      { card: "Sol (31)", meaning: "Fim de um ciclo difícil seguido de grande recuperação e renascimento" },
+      { card: "Criança (13)", meaning: "Fim de uma fase de inocência — amadurecimento forçado pelas circunstâncias" },
+      { card: "Coração (24)", meaning: "Término de relacionamento ou fim de um sentimento" },
+    ]
+  },
+  {
+    id: 9, name: "Buquê", kw: "Felicidade, presente, beleza",
+    tags: ['amor', 'sorte'],
+    element: "Elemento: Terra · Energia: Suave, grata",
+    summary: "O Buquê de flores é uma das cartas mais belas do baralho — traz alegria, gentileza, gratidão, presentes e a beleza genuína das coisas boas da vida.",
+    keywords: ["Felicidade", "Presente", "Beleza", "Gratidão", "Gentileza"],
+    pos: "Alegria espontânea, reconhecimento, presentes agradáveis, beleza nas pequenas coisas.",
+    neg: "Superficialidade, sorrisos falsos, gentileza excessiva que esconde outras intenções.",
+    geral: "O Buquê suaviza tudo ao seu redor. É uma carta de presentes, de reconhecimento e de beleza — tanto a beleza exterior quanto a generosidade interior. Quando aparece numa leitura, indica um momento de graça na vida, onde as coisas fluem com leveza e as pessoas ao redor demonstram carinho genuíno. Pode representar um presente literal, um elogio sincero ou um momento de alegria pura. Ela transforma cartas negativas em situações mais suportáveis e amplifica cartas positivas.",
+    conselho: "Permita-se receber. Muitas vezes somos bons em dar mas resistimos em aceitar a gentileza dos outros. Deixe a beleza da vida entrar — ela está se apresentando para você agora.",
+    amor: "Momento de harmonia e romantismo. Presentes, surpresas agradáveis, demonstrações de carinho. Um pedido de desculpas bem recebido. Também pode indicar que alguém está se apaixonando por você.",
+    solteiro: "Você está num momento de florescimento pessoal que atrai naturalmente o interesse alheio. Cuide de si mesmo — essa energia de beleza e alegria é o que mais atrai um parceiro de qualidade.",
+    trabalho: "Reconhecimento profissional, elogios do chefe ou clientes, prêmio ou bônus. Ambiente de trabalho agradável e harmonioso. Um projeto criativo é bem recebido.",
+    saude: "Bem-estar geral, momento de florescer. Práticas que trazem prazer — dança, jardim, arte — são benéficas agora. Cuidar da estética também cuida do espírito.",
+    combos: [
+      { card: "Coração (24)", meaning: "Amor florindo, declaração romântica, relacionamento muito feliz" },
+      { card: "Cobra (7)", meaning: "Gentileza com segundas intenções — presente envenenado" },
+      { card: "Pássaros (12)", meaning: "Conversa alegre e prazerosa, notícias felizes chegando" },
+      { card: "Sol (31)", meaning: "Felicidade plena e duradoura — um dos melhores agrupamentos do baralho" },
+    ]
+  },
+  {
+    id: 10, name: "Foice", kw: "Corte, decisão, colheita",
+    tags: ['desafio', 'trabalho'],
+    element: "Elemento: Fogo · Energia: Cortante, decisiva",
+    summary: "A Foice corta com precisão o que está maduro ou o que precisa ser eliminado. Representa decisões rápidas, separações e o momento da colheita — para o bem ou para o mal.",
+    keywords: ["Corte", "Decisão", "Separação", "Colheita", "Urgência"],
+    pos: "Decisão corajosa e necessária, corte libertador do que prejudica, colheita merecida.",
+    neg: "Separação dolorosa, acidentes, decisões precipitadas, ser cortado de algo ou alguém.",
+    geral: "A Foice não hesita. Ela representa o momento em que uma decisão precisa ser tomada — seja por você ou por outra pessoa. É a carta do corte limpo: um relacionamento que termina, um projeto cancelado, uma separação inevitável. Mas também é a colheita — o que você cultivou com esforço agora pode ser recolhido. O lado da lâmina indica para onde o corte aponta. Junto com a Árvore, pode indicar cirurgia ou intervenção médica.",
+    conselho: "Se você sabe que precisa tomar uma decisão difícil, a Foice diz: é hora. Adiar só prolonga o sofrimento. O corte rápido dói menos que o prolongado.",
+    amor: "Separação ou término de relacionamento — geralmente de forma repentina. Pode ser a decisão que um dos parceiros tomou (ou precisa tomar). Se combinada com cartas positivas, pode indicar o corte de algo que estava atrapalhando o amor.",
+    solteiro: "Pode ser preciso cortar laços com alguém do passado antes de abrir espaço para o novo. Há uma pessoa ou situação antiga que ainda prende sua energia?",
+    trabalho: "Demissão (sua ou de outro), cancelamento abrupto de contrato ou projeto. Decisão corporativa que muda tudo rapidamente. Atenção a ambientes de trabalho tensos.",
+    saude: "Possibilidade de cirurgia ou procedimento invasivo. Acidentes que envolvem cortes. Com cartas positivas, a intervenção tem resultado positivo.",
+    combos: [
+      { card: "Anel (25)", meaning: "Separação ou divórcio — fim de um compromisso formal" },
+      { card: "Árvore (5)", meaning: "Cirurgia ou procedimento médico necessário" },
+      { card: "Cachorro (18)", meaning: "Fim de uma amizade ou corte de laços com alguém próximo" },
+      { card: "Trevo (2)", meaning: "Uma decisão difícil que resulta em boa sorte — o corte necessário" },
+    ]
+  },
+  {
+    id: 11, name: "Chicote", kw: "Conflito, discussão, repetição",
+    tags: ['desafio'],
+    element: "Elemento: Fogo · Energia: Tensa, repetitiva",
+    summary: "O Chicote representa conflito repetitivo — as mesmas discussões que voltam sempre, os ciclos de dor que parecem não ter fim e a energia agitada que perturba o ambiente.",
+    keywords: ["Conflito", "Discussão", "Repetição", "Agressão", "Ritmo"],
+    pos: "Energia que impulsiona para a ação, ritmo forte, capacidade de enfrentar desafios.",
+    neg: "Brigas repetitivas, abuso verbal ou físico, ciclos de sofrimento que se renovam.",
+    geral: "O Chicote bate sempre no mesmo lugar. É a carta dos conflitos que se repetem — as mesmas discussões, as mesmas dinâmicas dolorosas, os mesmos padrões que aparecem na vida como se nada mudasse. Pode representar agressividade, violência verbal, um ambiente de trabalho hostil ou um relacionamento marcado por brigas. Mas também tem sua face positiva: a repetição que leva ao domínio de uma habilidade, o ritmo intenso de quem trabalha duro.",
+    conselho: "Identifique o padrão que se repete. Enquanto você continuar respondendo da mesma forma, o resultado será sempre igual. Algo no ciclo precisa mudar — e esse algo começa em você.",
+    amor: "Relacionamento marcado por brigas frequentes e ciclos de ruptura e reconciliação. A mesma discussão que nunca termina de verdade. Avalie se o padrão pode mudar ou se é estrutural.",
+    solteiro: "Você pode estar atraindo relacionamentos conflituosos por repetição de padrões antigos. Trabalhe na raiz do ciclo antes de buscar uma nova relação.",
+    trabalho: "Ambiente de trabalho estressante, chefe agressivo, discussões frequentes com colegas. Também pode representar um trabalho físico exigente ou pressão constante por resultados.",
+    saude: "Estresse crônico que afeta o sistema nervoso. Dores musculares, tensão no corpo, problemas relacionados à pressão alta ou ao sistema cardiovascular.",
+    combos: [
+      { card: "Casa (4)", meaning: "Conflitos domésticos sérios, ambiente familiar tenso e agitado" },
+      { card: "Coração (24)", meaning: "Brigas entre amantes, relacionamento turbulento mas apaixonado" },
+      { card: "Sol (31)", meaning: "Conflito que resulta em clareza e vitória — a discussão necessária que resolve" },
+      { card: "Lírio (30)", meaning: "Conflito que se resolve com maturidade e diálogo pacífico" },
+    ]
+  },
+  {
+    id: 12, name: "Pássaros", kw: "Conversas, ansiedade, casal",
+    tags: ['amor'],
+    element: "Elemento: Ar · Energia: Nervosa, comunicativa",
+    summary: "Os Pássaros representam o movimento constante da comunicação — conversas, telefonemas, mensagens, mas também a ansiedade e o nervosismo que acompanham a espera.",
+    keywords: ["Conversas", "Ansiedade", "Casal", "Nervosismo", "Comunicação"],
+    pos: "Comunicação fluida, diálogo aberto, conexões que se formam através de palavras.",
+    neg: "Ansiedade, preocupação excessiva, fofoca, comunicações que perturbam.",
+    geral: "Os Pássaros cantam, mas nem sempre trazem boas notícias — às vezes apenas fazem barulho. Esta carta representa a troca de palavras em todas as suas formas: conversas íntimas, telefonemas importantes, mensagens que chegam, fofoca que corre. Ela também carrega a energia nervosa do pensamento acelerado e da ansiedade. Como um casal de pássaros, pode representar literalmente um par — um casal, dois parceiros de negócios. A idade das figuras indica idosos em algumas tradições.",
+    conselho: "Cuidado com o que você fala e para quem fala. As palavras têm peso e viajam longe. Ao mesmo tempo, aquela conversa que você está adiando precisa acontecer — os pássaros não ficam em silêncio para sempre.",
+    amor: "Conversa importante a dois, comunicação que define o futuro do relacionamento. Também pode indicar uma fase de nervosismo e incerteza onde os dois precisam se falar mais abertamente.",
+    solteiro: "Possível conexão através de conversas — alguém que você conhece através de amigos em comum, por mensagens ou numa situação de diálogo. Um match virtual que vai para o mundo real.",
+    trabalho: "Reuniões, apresentações, negociações verbais. A comunicação é a chave agora. Também pode indicar fofoca no ambiente de trabalho — cuidado com o que compartilha.",
+    saude: "Sistema nervoso em alerta. Ansiedade, insônia, pensamentos acelerados. Pode indicar problemas respiratórios ou na garganta. Práticas de meditação e respiração são benéficas.",
+    combos: [
+      { card: "Carta (27)", meaning: "Mensagem ou correspondência importante chegando logo" },
+      { card: "Nuvens (6)", meaning: "Conversas que confundem mais do que esclarecem — cuidado com mal-entendidos" },
+      { card: "Coração (24)", meaning: "Declaração de sentimentos, conversa apaixonada, palavras de amor" },
+      { card: "Raposa (14)", meaning: "Cuidado com o que é dito — alguém pode estar usando as palavras para enganar" },
+    ]
+  },
+  {
+    id: 13, name: "Criança", kw: "Novidade, inocência, início",
+    tags: ['sorte'],
+    element: "Elemento: Ar · Energia: Fresca, nova",
+    summary: "A Criança representa tudo que é novo e puro — um começo, uma ideia que ainda está germinando, a inocência de quem está aprendendo pela primeira vez.",
+    keywords: ["Novidade", "Inocência", "Início", "Criança", "Ingenuidade"],
+    pos: "Começos frescos, criatividade espontânea, abertura para aprender, boa notícia de chegada.",
+    neg: "Ingenuidade que pode ser explorada, imaturidade, vulnerabilidade.",
+    geral: "A Criança é o começo de tudo. Onde ela aparece, algo novo está nascendo — pode ser um projeto, um relacionamento, uma ideia, uma fase de vida. É a energia mais pura do baralho: sem filtros, sem julgamento, sem o peso da experiência. Por isso, ao lado de cartas difíceis, ela indica vulnerabilidade. Ao lado de cartas positivas, indica que algo lindo está surgindo. Pode representar literalmente uma criança ou uma gravidez, dependendo do contexto.",
+    conselho: "Permita-se ser principiante novamente. Aproxime-se da vida com a curiosidade de uma criança — sem julgamento, sem preconceito. O que está nascendo em você precisa ser protegido.",
+    amor: "Início de um relacionamento, a fase inicial do apaixonamento onde tudo é fresco e novo. Pode indicar gravidez ou o desejo de ter filhos. Em relacionamentos antigos, traz de volta a leveza do começo.",
+    solteiro: "Um novo amor está surgindo — talvez você ainda não saiba quem é, mas a energia está presente. Permaneça aberto e despreocupado como uma criança para receber essa novidade.",
+    trabalho: "Início de um novo projeto, emprego ou empreendimento. É cedo para saber os resultados — tudo ainda está na fase de plantio. Bom momento para estudar e aprender algo novo.",
+    saude: "Boa saúde em geral. Pode indicar gravidez ou questões relacionadas a crianças. Literalmente indica que o corpo está se renovando.",
+    combos: [
+      { card: "Árvore (5)", meaning: "Gravidez ou questão de saúde infantil" },
+      { card: "Raposa (14)", meaning: "Cuidado com a ingenuidade — alguém pode estar se aproveitando da sua boa-fé" },
+      { card: "Sol (31)", meaning: "Novo começo muito promissor — algo que nasce com excelentes perspectivas" },
+      { card: "Caixão (8)", meaning: "Fim da inocência, amadurecimento forçado — fim de uma fase de início" },
+    ]
+  },
+  {
+    id: 14, name: "Raposa", kw: "Astúcia, cautela, engano",
+    tags: ['desafio', 'trabalho'],
+    element: "Elemento: Fogo · Energia: Calculista, estratégica",
+    summary: "A Raposa é a carta da inteligência estratégica — para o bem (astúcia que protege) ou para o mal (engano que prejudica). Alerta para falsidade nas relações.",
+    keywords: ["Astúcia", "Engano", "Falsidade", "Estratégia", "Trabalho"],
+    pos: "Inteligência tática, capacidade de navegar situações complexas, cautela protetora.",
+    neg: "Engano, falsidade, alguém manipulando a situação com segundas intenções.",
+    geral: "A Raposa vê mais do que aparenta. É uma das cartas mais ambivalentes do baralho — depende muito do contexto para determinar se a astúcia está trabalhando a seu favor ou contra você. Como sinal de alerta, indica que alguém no seu entorno não está sendo honesto. Como conselho, pede que você use sua inteligência de forma mais estratégica. No campo profissional, a Raposa frequentemente representa o próprio trabalho e o ambiente de escritório.",
+    conselho: "Observe mais e fale menos. Nem todo mundo tem acesso às suas estratégias e planos. Use sua inteligência para navegar a situação com sabedoria, mas sem traição.",
+    amor: "Alguém no triângulo amoroso ou no relacionamento não está sendo completamente honesto. A Raposa pede vigilância sem paranoia — observe os comportamentos, não apenas as palavras.",
+    solteiro: "Um pretendente pode não ser quem parece. Não se entregue completamente sem conhecer bem a pessoa. Seu instinto está te protegendo — ouça-o.",
+    trabalho: "A carta de trabalho por excelência. Indica o ambiente profissional com suas políticas e jogos de poder. Alguém pode estar sabotando você ou tomando crédito pelo seu trabalho.",
+    saude: "Pode indicar diagnósticos que não são completamente precisos — busque sempre uma segunda opinião. Doenças que são difíceis de identificar claramente.",
+    combos: [
+      { card: "Cobra (7)", meaning: "Perigo dobrado — dois personagens manipuladores ao redor" },
+      { card: "Cachorro (18)", meaning: "Um amigo que não é de fato amigo — falsidade disfarçada de lealdade" },
+      { card: "Árvore (5)", meaning: "No contexto de trabalho, indica o ofício, a profissão ou o local de trabalho" },
+      { card: "Chave (33)", meaning: "Descoberta de um engano — a verdade sendo revelada através da investigação" },
+    ]
+  },
+  {
+    id: 15, name: "Urso", kw: "Força, poder, autoridade",
+    tags: ['trabalho'],
+    element: "Elemento: Terra · Energia: Poderosa, protetora",
+    summary: "O Urso representa a força em todas as suas formas — física, financeira e hierárquica. É a carta do chefe, do poder de proteção e da abundância material.",
+    keywords: ["Força", "Poder", "Autoridade", "Dinheiro", "Proteção"],
+    pos: "Figura de proteção e autoridade, abundância financeira, força interior renovada.",
+    neg: "Autoritarismo excessivo, possessividade, figura de poder que oprime.",
+    geral: "O Urso não se move por pequenas coisas — ele representa forças maiores. Pode ser uma figura de autoridade (o chefe, o pai, uma instituição poderosa), uma força financeira importante, ou a própria força interior de quem consulta. Com cartas positivas ao redor, o Urso protege e prospera. Com cartas negativas, pode indicar alguém que usa o poder de forma opressiva. No contexto financeiro, aponta para dinheiro — muitas vezes relacionado ao chefe ou a uma herança.",
+    conselho: "Reconheça onde você tem poder e use-o com responsabilidade. Se há uma figura de autoridade em sua vida que você está resistindo, avalie se a resistência é produtiva ou apenas reativa.",
+    amor: "Um parceiro forte e protetor, ou excesso de possessividade. A dinâmica de poder no relacionamento precisa ser observada — quem manda mais? Está equilibrado?",
+    solteiro: "Você pode atrair alguém com presença forte e protetora. Verifique se o que busca é parceria ou proteção — há uma diferença importante.",
+    trabalho: "O chefe, o chefe do chefe, ou uma figura corporativa importante. Pode indicar uma promoção, uma herança ou a chegada de dinheiro significativo. Bom para empreendedores.",
+    saude: "Força física robusta quando positivo. Quando negativo, pode indicar excesso — de peso, de tensão, de pressão acumulada. Cuide do coração e do sistema circulatório.",
+    combos: [
+      { card: "Peixe (34)", meaning: "Grande abundância financeira — muito dinheiro movimentando" },
+      { card: "Homem (28)", meaning: "Chefe ou figura paterna importante com influência sobre a situação" },
+      { card: "Chicote (11)", meaning: "Chefe autoritário e agressivo, ou conflito com figura de poder" },
+      { card: "Criança (13)", meaning: "Pai protetor ou projeto novo sendo sustentado por força financeira" },
+    ]
+  },
+  {
+    id: 16, name: "Estrela", kw: "Esperança, destino, inspiração",
+    tags: ['espiritual', 'sorte'],
+    element: "Elemento: Ar · Energia: Elevada, espiritual",
+    summary: "A Estrela é a carta mais espiritual e esperançosa do baralho — representa o destino que se cumpre, os sonhos que se realizam e a luz que guia no escuro.",
+    keywords: ["Esperança", "Destino", "Sonhos", "Espiritualidade", "Clareza"],
+    pos: "Sonhos se realizando, clareza espiritual, sentimento de estar no caminho certo.",
+    neg: "Idealismo excessivo, esperança que não se concretiza, cabeça nas nuvens.",
+    geral: "A Estrela brilha mesmo quando o céu está nublado. É a carta da fé e da esperança — não a esperança ingênua, mas a confiança profunda de que existe um caminho e que você está nele. Representa o destino se alinhando, a intuição confiável, a espiritualidade genuína. Quando aparece numa leitura, é um sinal de que a situação está sob proteção — algo maior está trabalhando a seu favor. É uma das melhores cartas do baralho.",
+    conselho: "Confie no processo mesmo quando não enxerga o caminho completo. A Estrela pede fé ativa — não passividade, mas confiança no seu próprio caminho enquanto você age.",
+    amor: "Um amor que parece destinado, uma conexão profunda e espiritual. Sinal de que o relacionamento tem fundamento real e perspectiva de futuro. Para solteiros, indica que o amor certo está vindo.",
+    solteiro: "Um encontro que parece predestinado está por vir. Você está sendo guiado para as pessoas certas — confie nos encontros que parecem 'acidentais'.",
+    trabalho: "Inspiração criativa, projetos que fluem com facilidade, reconhecimento que vem de forma natural. Bom momento para seguir a vocação verdadeira.",
+    saude: "Saúde excelente ou recuperação surpreendente. Práticas espirituais e energéticas têm bom efeito agora — meditação, yoga, contato com a natureza.",
+    combos: [
+      { card: "Sol (31)", meaning: "Sucesso absoluto e realização plena — uma das combinações mais poderosas do baralho" },
+      { card: "Nuvens (6)", meaning: "A esperança existe mas está temporariamente obscurecida — persevere" },
+      { card: "Lua (32)", meaning: "Intuição muito forte, sonhos proféticos, insight espiritual profundo" },
+      { card: "Cruz (36)", meaning: "Destino se cumprindo através de um fardo — crescimento através da dificuldade" },
+    ]
+  },
+  {
+    id: 17, name: "Cegonha", kw: "Mudança, chegada, novidade",
+    tags: ['sorte'],
+    element: "Elemento: Ar · Energia: Renovadora, evolutiva",
+    summary: "A Cegonha anuncia mudanças significativas — a chegada do novo, a evolução de situações que estavam estagnadas, e literalmente, notícias de gravidez.",
+    keywords: ["Mudança", "Chegada", "Gravidez", "Evolução", "Transformação"],
+    pos: "Mudança positiva e desejada, chegada de algo importante, evolução natural da situação.",
+    neg: "Mudança inesperada ou indesejada, situações que se movem fora do controle.",
+    geral: "A Cegonha traz o que está por vir. Diferente do Cavaleiro (que traz notícias), a Cegonha representa a mudança em si — uma transformação que está chegando na sua vida. Pode ser uma mudança de casa, de emprego, de estado civil, de cidade. Simbolicamente, a Cegonha que traz bebês representa o nascimento do novo em qualquer aspecto da vida. É uma carta de movimento positivo, de evolução necessária.",
+    conselho: "Acolha a mudança que está chegando, mesmo que ela assuste. O que está sendo transformado precisava mudar. A Cegonha raramente traz o que não é necessário.",
+    amor: "Mudança positiva no relacionamento — pode ser um passo a mais (morar junto, noivado, casamento) ou uma transformação na dinâmica do casal. Gravidez é uma interpretação forte quando em contexto.",
+    solteiro: "Uma mudança importante na sua vida pessoal está prestes a acontecer — e ela pode trazer consigo um novo amor ou uma nova forma de se relacionar.",
+    trabalho: "Mudança de emprego, nova oportunidade, início de um projeto transformador. A carreira está evoluindo — confie no movimento.",
+    saude: "Melhora em processo, corpo em transformação positiva. Pode indicar gravidez. Em termos de saúde geral, indica que o pior está passando.",
+    combos: [
+      { card: "Casa (4)", meaning: "Mudança de casa ou grande transformação no ambiente familiar" },
+      { card: "Criança (13)", meaning: "Gravidez confirmada ou chegada de um bebê — uma das combinações mais diretas" },
+      { card: "Caixão (8)", meaning: "Mudança que vem de uma perda — transformação profunda após término ou luto" },
+      { card: "Navio (3)", meaning: "Mudança para outro lugar, emigração, viagem que transforma a vida" },
+    ]
+  },
+  {
+    id: 18, name: "Cachorro", kw: "Amizade, lealdade, confiança",
+    tags: ['amor'],
+    element: "Elemento: Terra · Energia: Leal, protetora",
+    summary: "O Cachorro é a carta da amizade verdadeira, da lealdade inabalável e das relações de confiança que sustentam a vida — pode ser uma pessoa de confiança ou a própria qualidade de lealdade.",
+    keywords: ["Amizade", "Lealdade", "Confiança", "Proteção", "Fidelidade"],
+    pos: "Amigo fiel, parceria de confiança, alguém que cobre suas costas sem pedir nada em troca.",
+    neg: "Dependência excessiva de outros, cão que late mais do que morde — falsa lealdade.",
+    geral: "O Cachorro é companheiro fiel. Representa um amigo de verdade, um parceiro de confiança, uma pessoa ou grupo que você pode contar em qualquer momento. Em leituras de relacionamento, pode indicar que o parceiro é extremamente leal. Em leituras de trabalho, aponta para um colega ou sócio de plena confiança. Com a Raposa (14), a lealdade do Cachorro é questionada. Sozinho, ele é um dos símbolos mais positivos de relacionamentos humanos do baralho.",
+    conselho: "Valorize as pessoas que estão ao seu lado de verdade. Às vezes esquecemos de cuidar dos nossos 'cachorros' enquanto corremos atrás das raposas. Quem você pode contar hoje?",
+    amor: "Amor baseado em amizade profunda, lealdade mútua e confiança genuína. Pode indicar que um amigo está se tornando algo mais, ou que o amor atual tem na amizade sua base mais sólida.",
+    solteiro: "O amor que você busca pode começar como amizade. Não subestime as conexões cotidianas — alguém que já está na sua vida pode surpreender.",
+    trabalho: "Um colega ou sócio extremamente confiável ao seu lado. Também pode indicar trabalho relacionado a animais ou proteção. Bom para parcerias profissionais.",
+    saude: "Saúde apoiada pela rede social. Ter pessoas próximas e de confiança é um dos maiores fatores de saúde e longevidade. O amor que sente é remédio.",
+    combos: [
+      { card: "Raposa (14)", meaning: "Um amigo que na verdade não é de confiança — amizade fachada" },
+      { card: "Cobra (7)", meaning: "Alguém que você trata como amigo mas que te trai às costas" },
+      { card: "Anel (25)", meaning: "Parceria leal e comprometida, amizade que se transforma em compromisso" },
+      { card: "Jardim (20)", meaning: "Boa rede de amigos, círculo social amplo e de confiança" },
+    ]
+  },
+  {
+    id: 19, name: "Torre", kw: "Solidão, autoridade, isolamento",
+    tags: ['trabalho', 'espiritual'],
+    element: "Elemento: Terra · Energia: Isolada, institucional",
+    summary: "A Torre representa as grandes estruturas — instituições, autoridades, fronteiras e o isolamento que pode vir de se colocar acima ou à margem dos outros.",
+    keywords: ["Solidão", "Autoridade", "Isolamento", "Instituição", "Fronteiras"],
+    pos: "Autonomia saudável, capacidade de se isolar para crescer, presença em instituições poderosas.",
+    neg: "Solidão dolorosa, isolamento por orgulho, frieza emocional, burocracia que bloqueia.",
+    geral: "A Torre é alta e fria. Representa tanto as grandes estruturas de poder (governo, empresas, hospitais, bancos) quanto o isolamento interior de quem se fechou atrás de muros. No aspecto positivo, é a capacidade de ser autônomo e de não depender de aprovação alheia. No aspecto negativo, é o orgulho que isola, a frieza que afasta as pessoas. Perto de cartas de relacionamento, indica distância emocional. Perto de cartas de trabalho, aponta para grandes empresas ou estruturas hierárquicas.",
+    conselho: "Revise os muros que você construiu. Alguns são necessários (protegem), outros são prisões disfarçadas de cidadela. A solidão escolhida é diferente da solidão imposta.",
+    amor: "Distância emocional no relacionamento, parceiro que se fecha ou que prioriza sua independência acima da conexão. Pode ser necessário abordar a questão da intimidade de forma direta.",
+    solteiro: "Um período de solidão que tem seu valor — você está reconstruindo sua própria identidade. Mas cuidado para não transformar esse isolamento em um hábito que impede novas conexões.",
+    trabalho: "Grandes empresas, corporações, bancos, hospitais, governo. Trabalho que requer independência e autoridade. Boa carta para quem está num nível de liderança.",
+    saude: "Isolamento como estratégia de recuperação. Períodos de retiro e descanso são benéficos. Também pode indicar hospitais ou instituições médicas.",
+    combos: [
+      { card: "Coração (24)", meaning: "Solidão sentimental profunda, isolamento emocional num relacionamento" },
+      { card: "Jardim (20)", meaning: "Vida social pública intensa — a personagem que aparece mas não se revela" },
+      { card: "Cachorro (18)", meaning: "Amizade com alguém frio ou distante, ou isolamento que afasta os amigos" },
+      { card: "Sol (31)", meaning: "Sucesso individual e reconhecimento público — o solitário que chega ao topo" },
+    ]
+  },
+  {
+    id: 20, name: "Jardim", kw: "Sociedade, encontros, público",
+    tags: ['amor', 'trabalho'],
+    element: "Elemento: Terra · Energia: Social, aberta",
+    summary: "O Jardim representa o espaço público e coletivo — encontros sociais, eventos, redes de relacionamento e tudo que acontece quando saímos de casa para o mundo.",
+    keywords: ["Sociedade", "Público", "Encontros", "Redes", "Eventos"],
+    pos: "Vida social rica, encontros significativos em ambientes coletivos, presença pública positiva.",
+    neg: "Fofoca, vida pública que invade o privado, superficialidade nas relações.",
+    geral: "O Jardim é o espaço onde as pessoas se encontram. Representa festas, eventos, reuniões, redes profissionais e o círculo social mais amplo. Modifica as cartas ao redor — qualquer situação descrita pelas cartas vizinhas acontece em um contexto público ou coletivo. Uma carta de amor perto do Jardim indica um relacionamento que se desenvolve em público, ou que se torna conhecido. Uma carta de trabalho indica projetos que envolvem muitas pessoas.",
+    conselho: "Saia mais. Esteja presente em situações coletivas que importam para você. Os encontros que mudam a vida raramente acontecem na solidão do quarto.",
+    amor: "Relacionamento que começa ou se desenvolve em contexto social — festas, eventos, grupos de interesse comum. Também pode indicar que um relacionamento está se tornando público e oficial.",
+    solteiro: "Um novo amor pode surgir num evento, reunião ou situação social. Saia mais — o encontro que você espera acontece onde há pessoas.",
+    trabalho: "Networking, eventos profissionais, projetos coletivos. Bom momento para se fazer visível no seu campo de atuação. A visibilidade traz oportunidades.",
+    saude: "Saúde social — a qualidade das relações impacta diretamente o bem-estar. Eventos ao ar livre e atividades coletivas são benéficos.",
+    combos: [
+      { card: "Cachorro (18)", meaning: "Um círculo de amigos leal e saudável, boa vida social" },
+      { card: "Torre (19)", meaning: "Vida pública X vida privada — a persona que aparece socialmente não corresponde ao interior" },
+      { card: "Buquê (9)", meaning: "Evento social muito agradável, festa bem-sucedida, encontro feliz" },
+      { card: "Raposa (14)", meaning: "Cuidado com o ambiente social — fofoca, pessoas falsas em círculos de convívio" },
+    ]
+  },
+  {
+    id: 21, name: "Montanha", kw: "Obstáculo, bloqueio, desafio",
+    tags: ['desafio'],
+    element: "Elemento: Terra · Energia: Resistente, bloqueadora",
+    summary: "A Montanha é o grande obstáculo — o bloqueio que parece intransponível, o inimigo silencioso, o desafio que exige esforço e estratégia para ser superado.",
+    keywords: ["Obstáculo", "Bloqueio", "Inimigo", "Desafio", "Lentidão"],
+    pos: "Desafio que fortalece, obstáculo que quando superado leva ao próximo nível.",
+    neg: "Bloqueio sério, inimigo ativo, situação que não avança por muito tempo.",
+    geral: "A Montanha não some — ela precisa ser contornada ou escalada. É uma das cartas mais pesadas do baralho, representando bloqueios reais e duradouros. Pode ser uma pessoa (inimigo, rival, figura hostil) ou uma situação (burocracia, doença crônica, situação financeira difícil). A posição da Montanha na tiragem indica de onde vem o bloqueio e o que está sendo bloqueado. É importante identificar se o obstáculo é externo ou se é um padrão interno que recria os bloqueios.",
+    conselho: "A montanha pode ser contornada mesmo que não possa ser derrubada. Busque caminhos alternativos. Se já tentou a força bruta sem sucesso, tente a paciência e a estratégia.",
+    amor: "Obstáculos sérios no caminho do amor — pode ser uma família que não aprova, distância geográfica, ex-parceiros que interferem. A relação existe mas enfrenta resistência constante.",
+    solteiro: "Há algo bloqueando sua abertura para o amor — um medo antigo, uma ferida não curada, ou circunstâncias externas difíceis. Identifique o obstáculo antes de buscar novas relações.",
+    trabalho: "Bloqueio profissional sério — falta de oportunidades, burocracia que paralisa, concorrência desleal. É necessário estratégia e perseverança. A situação muda, mas leva tempo.",
+    saude: "Condição crônica ou obstáculo no processo de cura. Tratamentos que demoram mais do esperado. Também pode indicar depressão ou bloqueios emocionais que afetam o corpo.",
+    combos: [
+      { card: "Caminhos (22)", meaning: "Há uma saída para o obstáculo — você precisa escolher o caminho certo" },
+      { card: "Chave (33)", meaning: "A solução para o bloqueio está mais próxima do que parece" },
+      { card: "Sol (31)", meaning: "O obstáculo será superado com sucesso — a montanha pode ser escalada" },
+      { card: "Ratos (23)", meaning: "O bloqueio está se agravando, perdas sendo geradas pela situação de impasse" },
+    ]
+  },
+  {
+    id: 22, name: "Caminhos", kw: "Decisão, escolha, alternativas",
+    tags: ['espiritual'],
+    element: "Elemento: Ar · Energia: Aberta, decisiva",
+    summary: "Os Caminhos representam a encruzilhada — um momento de decisão importante onde você precisa escolher uma direção, sabendo que a outra ficará para trás.",
+    keywords: ["Decisão", "Escolha", "Alternativas", "Liberdade", "Bifurcação"],
+    pos: "Liberdade de escolha, múltiplas opções, momento de poder real na própria vida.",
+    neg: "Indecisão paralisante, medo de fazer a escolha errada, dificuldade de se comprometer.",
+    geral: "Os Caminhos exigem uma escolha. É uma das cartas mais claras do baralho — ela diz: você está numa bifurcação, e ambos os caminhos têm consequências. O contexto das cartas ao redor revela o que está em jogo nessa decisão. Uma coisa é certa: ficar parado na bifurcação também é uma escolha, e geralmente a pior delas. A liberdade que esta carta oferece é real, mas ela vem com responsabilidade.",
+    conselho: "Tome a decisão. Qualquer caminho é melhor que a paralisia. Você tem mais informações do que pensa, e seu instinto já sabe qual direção é a certa — ouça-o.",
+    amor: "Escolha entre duas pessoas ou duas situações amorosas. Pode ser a decisão de se comprometer ou não com um relacionamento. Também pode indicar um momento crucial de escolha dentro de um relacionamento já estabelecido.",
+    solteiro: "Há mais de uma opção romântica no seu horizonte — mas você precisará escolher uma direção. A indefinição não serve a ninguém.",
+    trabalho: "Decisão profissional importante — ficar ou sair, aceitar ou recusar uma proposta. O momento da escolha chegou. Pese as opções mas não postergue.",
+    saude: "Momento de decidir entre tratamentos ou abordagens de saúde. Busque informação suficiente mas não paralise na dúvida — a decisão é necessária.",
+    combos: [
+      { card: "Montanha (21)", meaning: "Há uma saída para o obstáculo — qual caminho tomar para superá-lo?" },
+      { card: "Coração (24)", meaning: "Decisão sobre amor — o coração precisa escolher" },
+      { card: "Nuvens (6)", meaning: "Confusão na hora de decidir — falta clareza sobre qual caminho seguir" },
+      { card: "Chave (33)", meaning: "A decisão certa existe e você a encontrará — uma das escolhas é claramente melhor" },
+    ]
+  },
+  {
+    id: 23, name: "Ratos", kw: "Perdas, estresse, deterioração",
+    tags: ['desafio'],
+    element: "Elemento: Terra · Energia: Corrosiva, ansiosa",
+    summary: "Os Ratos representam a deterioração lenta — as perdas que vão acontecendo aos poucos, o estresse que corrói, o que vai sendo roubado ou desgastado com o tempo.",
+    keywords: ["Perda", "Estresse", "Corrosão", "Roubo", "Deterioração"],
+    pos: "Perceber as perdas a tempo de agir, limpeza do que estava deteriorado.",
+    neg: "Perdas financeiras, desgaste emocional, situação que piora gradualmente.",
+    geral: "Os Ratos corroem em silêncio. Esta é uma das cartas de alerta mais importantes do baralho — ela indica que algo está sendo perdido, desgastado ou roubado, muitas vezes de forma gradual e quase imperceptível. Pode ser dinheiro que escoa (gastos excessivos, prejuízos), energia vital (estresse crônico), saúde (doença lenta), confiança (traição que vai se revelando), ou qualquer coisa que deveria estar intacta mas está se deteriorando. A boa notícia: os Ratos podem ser contidos.",
+    conselho: "Preste atenção no que está sendo consumido silenciosamente na sua vida. Onde está seu tempo? Sua energia? Seu dinheiro? Identifique a fonte do desgaste e intervenha antes que o dano seja maior.",
+    amor: "Desgaste no relacionamento que acontece de forma gradual. Falta de comunicação, mágoas acumuladas, distância que cresce sem que ninguém perceba. Ou uma terceira pessoa roubando a atenção.",
+    solteiro: "Situações ou pessoas que estão drenando sua energia sem te oferecer nada em troca. Identifique quem ou o que está consumindo o que você tem de melhor.",
+    trabalho: "Perdas financeiras, projetos que não dão o retorno esperado, colegas que se apropriam de ideias alheias. Audite seu tempo e energia.",
+    saude: "Condições de saúde que pioram gradualmente se não tratadas. Estresse crônico como principal vilão. Insônia, ansiedade, sistema imune enfraquecido.",
+    combos: [
+      { card: "Peixe (34)", meaning: "Perda financeira significativa — dinheiro escorrendo" },
+      { card: "Árvore (5)", meaning: "Saúde se deteriorando — condição que piora sem tratamento" },
+      { card: "Coração (24)", meaning: "Desgaste emocional no amor, sentimento que vai se esgotando" },
+      { card: "Sol (31)", meaning: "As perdas são interrompidas — a situação se reverte para melhor" },
+    ]
+  },
+  {
+    id: 24, name: "Coração", kw: "Amor, emoções, sentimentos",
+    tags: ['amor'],
+    element: "Elemento: Fogo · Energia: Quente, emocional",
+    summary: "O Coração é a carta do amor em sua forma mais pura — sentimentos profundos, romance, paixão, vulnerabilidade e a coragem de amar sem garantias.",
+    keywords: ["Amor", "Emoções", "Paixão", "Romance", "Sentimentos"],
+    pos: "Amor verdadeiro e correspondido, emoções fluindo de forma saudável, conexão profunda.",
+    neg: "Amor não correspondido, emoções que dominam a razão, coração partido.",
+    geral: "O Coração fala de amor — mas de qual amor? As cartas vizinhas definem a história. Com o Anel, é compromisso. Com a Cobra, é traição. Com o Caixão, é fim. Com o Sol, é realização plena. Sozinho, o Coração indica que as emoções estão fortes e presentes — seja como alegria ou como dor. É uma das cartas mais centrais para leituras de relacionamento e representa a essência do que se sente, não do que se pensa.",
+    conselho: "O que você sente é real — não o minimize. Mas também não deixe que o coração governe quando a sabedoria é necessária. Amor verdadeiro tem espaço para o coração E para a cabeça.",
+    amor: "Uma das cartas mais positivas para relacionamentos. Amor mútuo, sentimentos profundos, romance que floresce. A pergunta é sempre: as cartas vizinhas confirmam a correspondência?",
+    solteiro: "Você está em fase de abertura para o amor. Seus sentimentos estão acordados e receptivos. Um amor real está por vir — ou já está presente sem que você perceba.",
+    trabalho: "Trabalho que traz satisfação emocional profunda, paixão pelo que faz. Pode indicar que a área profissional que realmente te chama ainda não foi seguida.",
+    saude: "Literalmente o coração — atenção à saúde cardiovascular. Emocionalmente, indica a necessidade de cuidar do bem-estar emocional como parte da saúde.",
+    combos: [
+      { card: "Anel (25)", meaning: "Amor que se formaliza — casamento, noivado, compromisso oficial" },
+      { card: "Caixão (8)", meaning: "Fim de um amor — separação ou encerramento de sentimentos" },
+      { card: "Cobra (7)", meaning: "Traição amorosa — sentimentos envolvidos numa situação de engano" },
+      { card: "Sol (31)", meaning: "Amor pleno e feliz — um dos melhores presságios românticos do baralho" },
+    ]
+  },
+  {
+    id: 25, name: "Anel", kw: "União, compromisso, ciclo",
+    tags: ['amor', 'trabalho'],
+    element: "Elemento: Terra · Energia: Cíclica, vinculante",
+    summary: "O Anel representa vínculos — formais e informais, amorosos e profissionais. É o compromisso, o contrato, a aliança que une duas partes em algo maior.",
+    keywords: ["União", "Compromisso", "Contrato", "Ciclo", "Aliança"],
+    pos: "Compromisso sólido, parceria verdadeira, contratos favoráveis, ciclos que se completam.",
+    neg: "Armadilha de um compromisso ruim, contrato desvantajoso, ciclo que não se fecha.",
+    geral: "O Anel une. Pode ser uma aliança de casamento, um contrato profissional, uma parceria de negócios ou qualquer tipo de vínculo formal ou informal que une duas partes. É uma carta de comprometimento — a pergunta é sempre: com quem ou com o quê? As cartas vizinhas revelam a natureza do vínculo. Com cartas positivas, o compromisso é benéfico. Com cartas como a Cobra ou a Foice, o vínculo pode ser traiçoeiro ou estar prestes a se romper.",
+    conselho: "Antes de se comprometer, certifique-se de que é isso que você quer. Um anel não deve ser aceito por pressão ou conveniência. O compromisso que você assume agora vai durar — escolha conscientemente.",
+    amor: "Casamento, noivado, ou formalização de um relacionamento. Em relacionamentos existentes, indica que é hora de dar um passo mais sério. O amor está pronto para um compromisso.",
+    solteiro: "Um compromisso amoroso está se aproximando. Você pode estar prestes a conhecer alguém com quem vai querer construir algo duradouro.",
+    trabalho: "Contrato, parceria, acordo profissional que se formaliza. Bom momento para assinar documentos importantes, fechar parcerias ou formalizar colaborações.",
+    saude: "Ciclos de saúde — padrões que se repetem. Pode indicar tratamentos que precisam de continuidade ou a importância de comprometimento com uma rotina de saúde.",
+    combos: [
+      { card: "Coração (24)", meaning: "Casamento ou noivado, amor que se oficializa" },
+      { card: "Foice (10)", meaning: "Divórcio ou rompimento de contrato — fim de um vínculo formal" },
+      { card: "Peixe (34)", meaning: "Contrato financeiro, sociedade de negócios lucrativa" },
+      { card: "Cobra (7)", meaning: "Contrato ou compromisso com alguém mal-intencionado — revise bem antes de assinar" },
+    ]
+  },
+  {
+    id: 26, name: "Livro", kw: "Segredos, conhecimento, estudo",
+    tags: ['trabalho', 'espiritual'],
+    element: "Elemento: Ar · Energia: Misteriosa, intelectual",
+    summary: "O Livro guarda segredos. Representa o conhecimento oculto, as situações ainda não reveladas, os estudos que aprofundam e os mistérios que aguardam descoberta.",
+    keywords: ["Segredos", "Conhecimento", "Mistério", "Estudo", "Ocultismo"],
+    pos: "Conhecimento profundo, segredos que protegem, estudos que trazem vantagem.",
+    neg: "Informação retida, segredos prejudiciais, situação que não se revela completamente.",
+    geral: "O Livro permanece fechado. Esta carta representa situações que ainda não foram completamente reveladas, pessoas com segredos importantes, e a necessidade (ou perigo) de mais conhecimento. Em leituras espirituais, aponta para o esoterismo e o conhecimento iniciático. Em leituras cotidianas, indica que há mais informação relevante que ainda não veio à tona. As cartas vizinhas revelam o tema do segredo.",
+    conselho: "Nem todos os segredos precisam ser revelados — mas os que te afetam diretamente merecem investigação. Também é um chamado para aprofundar seu conhecimento sobre a situação antes de agir.",
+    amor: "Há segredos no relacionamento ou em torno do interesse amoroso. Uma das partes está retendo informações importantes. Também pode indicar um amor secreto ou relacionamento que ainda não veio a público.",
+    solteiro: "Alguém no seu entorno tem sentimentos por você mas ainda não os revelou. Ou você mesmo guarda um sentimento não confessado. O livro está prestes a ser aberto.",
+    trabalho: "Projetos confidenciais, informações estratégicas, estudos que darão vantagem competitiva. Bom momento para aprender algo novo que outros ainda não sabem.",
+    saude: "Diagnóstico que ainda não está completo, sintomas que precisam de mais investigação. Pode indicar tratamentos alternativos ou conhecimentos médicos não convencionais.",
+    combos: [
+      { card: "Chave (33)", meaning: "O segredo será revelado — a verdade escondida vem à tona" },
+      { card: "Nuvens (6)", meaning: "Segredo ainda mais profundo, situação muito mais complexa do que parece" },
+      { card: "Raposa (14)", meaning: "Alguém está usando informação secreta para se beneficiar às suas custas" },
+      { card: "Estrela (16)", meaning: "Conhecimento espiritual ou esotérico profundo que ilumina o caminho" },
+    ]
+  },
+  {
+    id: 27, name: "Carta", kw: "Notícias, documento, mensagem",
+    tags: ['trabalho'],
+    element: "Elemento: Ar · Energia: Comunicativa, documental",
+    summary: "A Carta traz notícias concretas — uma mensagem, um documento oficial, uma comunicação importante que muda o estado de uma situação.",
+    keywords: ["Notícia", "Documento", "Mensagem", "Comunicação", "Correspondência"],
+    pos: "Boas notícias chegando, documentos favoráveis, comunicação que resolve situações.",
+    neg: "Notícias ruins, documentos problemáticos, comunicação que traz complicações.",
+    geral: "A Carta é a mensagem que chega. Diferente do Cavaleiro (que representa o movimento das notícias), a Carta é o conteúdo da comunicação em si — o documento, o e-mail, a mensagem de texto, a decisão oficial. As cartas vizinhas revelam se as notícias são boas ou ruins, e sobre qual área da vida se referem. É uma das cartas mais concretas do baralho — quando ela aparece, algo oficial está chegando.",
+    conselho: "Preste atenção nas comunicações que estão chegando — leia com cuidado o que está sendo dito. Também é um lembrete de que aquela mensagem que você precisa enviar não deve ser adiada.",
+    amor: "Uma mensagem importante de ou para uma pessoa de interesse. Pode ser a declaração que você esperava ou a conversa decisiva que vai definir o futuro do relacionamento.",
+    solteiro: "Uma comunicação inesperada pode ser o início de uma conexão. Não ignore mensagens de pessoas que você conheceu recentemente.",
+    trabalho: "Documentos oficiais, contratos, e-mails profissionais importantes, respostas de candidatura. Uma comunicação formal está chegando e merece atenção.",
+    saude: "Resultado de exame, laudo médico ou comunicação de saúde importante. Seja o resultado que for, você terá a informação necessária para agir.",
+    combos: [
+      { card: "Pássaros (12)", meaning: "Mensagem que traz nervosismo ou notícias que geram ansiedade" },
+      { card: "Sol (31)", meaning: "Excelentes notícias chegando — comunicado muito positivo" },
+      { card: "Caixão (8)", meaning: "Notícia de fim — rescisão, diagnóstico grave, comunicado de separação" },
+      { card: "Anel (25)", meaning: "Documento de compromisso — contrato, proposta formal, certidão" },
+    ]
+  },
+  {
+    id: 28, name: "Homem", kw: "Consultante masculino, parceiro",
+    tags: ['amor'],
+    element: "Elemento: Ar · Energia: Masculina, ativa",
+    summary: "O Homem é o consultante masculino ou o parceiro masculino da consulta. Suas características são reveladas pelas cartas ao redor — ele é definido pelo contexto.",
+    keywords: ["Masculino", "Parceiro", "Consultante", "Pai", "Influência masculina"],
+    pos: "Parceiro positivo, influência masculina benéfica, homem que contribui para a situação.",
+    neg: "Homem problemático na situação, influência masculina negativa.",
+    geral: "O Homem não tem significado próprio independente — ele é definido pelas cartas ao redor. Quando é o consultante, as cartas vizinhas descrevem sua situação. Quando é outra pessoa, o contexto revela quem é e o que representa. Em leituras de amor para mulheres, geralmente é o parceiro ou interesse amoroso. As cartas abaixo do Homem revelam o que está na base de sua personalidade; as acima, o que pensa; à esquerda, o passado; à direita, o futuro.",
+    conselho: "Observe quem é o homem desta história — pode ser você, um parceiro, um familiar ou um colega. As cartas ao redor dizem mais sobre ele do que qualquer definição fixa.",
+    amor: "O parceiro masculino da história. Suas características, intenções e o que sente estão nas cartas vizinhas. Se você é o Homem, as cartas dizem como o amor está se desenvolvendo para você.",
+    solteiro: "Um homem específico está no horizonte romântico — as cartas ao redor revelam se é confiável, se tem interesse real, se está disponível.",
+    trabalho: "Um colega, chefe ou parceiro masculino importante na situação profissional. Suas cartas ao redor revelam se é aliado ou competidor.",
+    saude: "A saúde do consultante masculino. As cartas vizinhas revelam o estado de saúde.",
+    combos: [
+      { card: "Coração (24)", meaning: "Homem apaixonado — seus sentimentos são genuínos" },
+      { card: "Cobra (7)", meaning: "Homem traiçoeiro ou manipulador na situação" },
+      { card: "Urso (15)", meaning: "Homem poderoso e dominante — pode ser chefe, pai ou parceiro controlador" },
+      { card: "Anel (25)", meaning: "Homem pronto para compromisso sério" },
+    ]
+  },
+  {
+    id: 29, name: "Mulher", kw: "Consultante feminino, parceira",
+    tags: ['amor'],
+    element: "Elemento: Água · Energia: Feminina, receptiva",
+    summary: "A Mulher é a consultante feminina ou a parceira feminina da consulta. Como o Homem, seu significado é revelado pelas cartas ao redor.",
+    keywords: ["Feminino", "Parceira", "Consultante", "Mãe", "Influência feminina"],
+    pos: "Parceira positiva, influência feminina benéfica, mulher que contribui para a situação.",
+    neg: "Mulher problemática na situação, influência feminina negativa ou complexa.",
+    geral: "A Mulher carrega o mesmo princípio do Homem — ela é definida pelo contexto. Quando é a consultante, as cartas ao redor revelam sua situação atual, seus sentimentos, seu passado e futuro. Quando representa outra pessoa, o contexto diz quem é ela na história. Em leituras de amor para homens, geralmente é a parceira ou interesse amoroso. As cartas abaixo revelam sua base emocional; as acima, seus pensamentos e aspirações.",
+    conselho: "Observe quem é a mulher desta história. As cartas ao redor falam mais do que qualquer definição prévia. Se é você, leia as vizinhas como seu retrato atual.",
+    amor: "A parceira feminina da história, ou a própria consultante em situação amorosa. As cartas vizinhas revelam como o amor está se desenvolvendo, quais são os sentimentos, e qual o potencial da conexão.",
+    solteiro: "Uma mulher específica está presente na história — ou a consultante está num período de autodescoberta antes do amor.",
+    trabalho: "Uma colega, chefe ou parceira feminina importante. As cartas ao redor revelam se é aliada ou competidora.",
+    saude: "A saúde da consultante feminina. As cartas vizinhas revelam o estado de saúde físico e emocional.",
+    combos: [
+      { card: "Coração (24)", meaning: "Mulher apaixonada com sentimentos genuínos e profundos" },
+      { card: "Cobra (7)", meaning: "Rival feminina ou mulher com intenções não declaradas" },
+      { card: "Buquê (9)", meaning: "Mulher alegre, bela e generosa — energia muito positiva" },
+      { card: "Nuvens (6)", meaning: "Mulher confusa ou que está confundindo a situação" },
+    ]
+  },
+  {
+    id: 30, name: "Lírio", kw: "Paz, harmonia, maturidade",
+    tags: ['amor', 'espiritual'],
+    element: "Elemento: Água · Energia: Serena, madura",
+    summary: "O Lírio representa a paz conquistada — a harmonia que vem da maturidade, a sensualidade tranquila e a calma de quem já passou pelas tempestades da vida.",
+    keywords: ["Paz", "Harmonia", "Maturidade", "Sensualidade", "Tranquilidade"],
+    pos: "Paz genuína, relacionamento maduro e harmonioso, período de descanso merecido.",
+    neg: "Estagnação disfarçada de paz, passividade excessiva, falta de movimento.",
+    geral: "O Lírio floresce na água parada. É uma das cartas mais serenas do baralho — traz paz, harmonia, satisfação. Representa a maturidade de quem já viveu o suficiente para não se agitar com pequenas coisas. Em leituras de amor, pode indicar um relacionamento maduro e estável, ou a dimensão sensual de um amor. Em leituras de trabalho, aponta para um ambiente tranquilo e harmônico. Com cartas agitadas ao redor, o Lírio indica que a paz está chegando.",
+    conselho: "Permita-se descansar. Nem toda situação exige luta — às vezes a sabedoria está em aceitar a harmonia quando ela se apresenta. Você já ganhou esse momento de paz.",
+    amor: "Amor maduro, tranquilo e harmonioso. Menos paixão intensa mas mais profundidade e segurança. Pode indicar um parceiro mais velho ou um relacionamento que amadureceu com o tempo.",
+    solteiro: "Um amor tranquilo e maduro está por vir — não será um tumulto de emoções, mas uma conexão sólida e verdadeira. Ou você está num período de paz consigo mesmo.",
+    trabalho: "Ambiente de trabalho harmonioso, relações profissionais tranquilas. Bom momento para consolidar o que foi construído sem grandes novidades.",
+    saude: "Saúde em equilíbrio, período de recuperação tranquila. Práticas relaxantes — banhos, meditação, sono — são muito benéficas. O corpo pede descanso.",
+    combos: [
+      { card: "Sol (31)", meaning: "Paz e sucesso plenos — harmonia em todas as áreas" },
+      { card: "Chicote (11)", meaning: "Conflito que está sendo resolvido com maturidade — caminhando para a paz" },
+      { card: "Coração (24)", meaning: "Amor tranquilo e sensual, relação madura e equilibrada" },
+      { card: "Cruz (36)", meaning: "Paz espiritual profunda, aceitação do caminho com serenidade" },
+    ]
+  },
+  {
+    id: 31, name: "Sol", kw: "Sucesso, vitalidade, clareza",
+    tags: ['sorte', 'trabalho'],
+    element: "Elemento: Fogo · Energia: Radiante, vitoriosa",
+    summary: "O Sol é a carta mais positiva do baralho — representa o sucesso pleno, a clareza que desfaz as dúvidas, a vitalidade que energiza e a vitória bem merecida.",
+    keywords: ["Sucesso", "Vitória", "Clareza", "Energia", "Felicidade"],
+    pos: "Sucesso absoluto, clareza total, vitalidade radiante, realização do que foi plantado.",
+    neg: "Arrogância, excesso de confiança, sucesso que cega para os detalhes importantes.",
+    geral: "O Sol ilumina tudo. É a carta mais positiva do Baralho Cigano e, onde aparece, traz clareza, sucesso e energia. Ela transforma cartas negativas em situações menos graves e amplifica ao máximo as cartas positivas. O Sol em qualquer posição da tiragem é um sinal de que a luz está presente naquele aspecto. Seja na saúde, no amor, no trabalho ou na vida espiritual — o Sol anuncia o melhor que pode acontecer.",
+    conselho: "Confie no seu brilho. Este é um momento de colher o que foi plantado — não de se esconder nem de minimizar suas conquistas. O Sol brilha para todos, inclusive para você.",
+    amor: "Uma das melhores cartas para relacionamentos. Amor feliz, alegre, vitalizante. Casal que brilha junto. Novos inícios amorosos com perspectivas lindas.",
+    solteiro: "Um amor radiante está chegando — alguém que vai iluminar sua vida. Ou você está num período de brilhar tanto que atrai naturalmente o melhor.",
+    trabalho: "Sucesso profissional, reconhecimento, promoção, projeto que vai muito bem. Período dourado para a carreira e para os negócios.",
+    saude: "Saúde excelente, vitalidade alta, corpo cheio de energia. Rápida recuperação de qualquer condição. Bom momento para iniciar novas rotinas saudáveis.",
+    combos: [
+      { card: "Estrela (16)", meaning: "Destino e sucesso alinhados — a maior combinação de realização do baralho" },
+      { card: "Coração (24)", meaning: "Amor pleno e vitalizante — felicidade absoluta no amor" },
+      { card: "Nuvens (6)", meaning: "O Sol desfaz as nuvens — a confusão se resolve, a clareza vem" },
+      { card: "Ratos (23)", meaning: "O Sol interrompe as perdas e reverte a situação para melhor" },
+    ]
+  },
+  {
+    id: 32, name: "Lua", kw: "Emoções, intuição, reconhecimento",
+    tags: ['espiritual', 'amor'],
+    element: "Elemento: Água · Energia: Intuitiva, cíclica",
+    summary: "A Lua governa os ciclos emocionais, a intuição profunda e o reconhecimento público. Ela ilumina o que estava escondido na escuridão interior.",
+    keywords: ["Emoções", "Intuição", "Reconhecimento", "Ciclos", "Inconsciente"],
+    pos: "Intuição aguçada, reconhecimento merecido, conexão com o mundo emocional e espiritual.",
+    neg: "Ilusões, fantasias que distorcem a realidade, emoções que governam de forma irracional.",
+    geral: "A Lua revela o que o Sol não ilumina. É a carta das emoções profundas, dos sonhos, da intuição que vai além da lógica. Também representa o reconhecimento público — prêmios, fama, destaque social. Seus ciclos são irregulares como as marés: às vezes a maré emocional está alta, outras vezes baixa. É importante não se deixar afundar quando as águas sobem. Em leituras espirituais, a Lua aponta para o inconsciente e para capacidades psíquicas.",
+    conselho: "Confie na sua intuição — ela sabe coisas que sua mente racional ainda não processou. Ao mesmo tempo, verifique se o que você sente é intuição real ou projeção emocional.",
+    amor: "Amor profundamente emocional, conexão quase telepática, relação que funciona mais pelo sentir do que pelo pensar. Pode indicar romance com tonalidade mística.",
+    solteiro: "Seus instintos vão te guiar para o amor certo agora — confie mais no que sente do que no que analisa. Um encontro que parece irreal pode ser muito verdadeiro.",
+    trabalho: "Reconhecimento público, prêmio, destaque na área. Trabalhos ligados a arte, intuição, espiritualidade ou cuidado emocional estão em alta.",
+    saude: "Saúde hormonal e ciclos do corpo. Sistema nervoso sensível. Sonhos com informações sobre a saúde. Boa fase para trabalhos com o inconsciente — psicoterapia, hipnose.",
+    combos: [
+      { card: "Estrela (16)", meaning: "Intuição espiritual poderosa, sonhos proféticos que guiam" },
+      { card: "Sol (31)", meaning: "Reconhecimento público amplo e sucesso que brilha para todos" },
+      { card: "Nuvens (6)", meaning: "Ilusão emocional — o que você sente pode não corresponder à realidade" },
+      { card: "Coração (24)", meaning: "Emoções amorosas muito intensas, amor que sente no corpo todo" },
+    ]
+  },
+  {
+    id: 33, name: "Chave", kw: "Solução, destino, abertura",
+    tags: ['sorte', 'espiritual'],
+    element: "Elemento: Terra · Energia: Liberadora, destinal",
+    summary: "A Chave abre o que estava fechado — representa a solução que estava sendo buscada, o acesso a algo importante e o sentimento de que o destino está se cumprindo.",
+    keywords: ["Solução", "Destino", "Abertura", "Acesso", "Conquista"],
+    pos: "A solução encontrada, porta que se abre, destino se realizando conforme esperado.",
+    neg: "A chave existe mas está perdida, ou a solução está próxima mas ainda não alcançada.",
+    geral: "A Chave desbloqueia. É uma das cartas mais positivas do baralho — quando ela aparece perto de cartas problemáticas, indica que a solução está próxima ou já presente. Quando aparece perto de cartas positivas, amplifica e confirma. A Chave também tem uma dimensão destinal — ela representa o momento em que as coisas se encaixam, quando a vida abre a porta certa na hora certa. O que a Chave está abrindo na sua vida agora?",
+    conselho: "A resposta que você procura já existe — você está mais próximo da solução do que imagina. Continue buscando, pois a chave certa está ao seu alcance.",
+    amor: "A solução para um problema no relacionamento, a resposta a um sentimento, o acesso ao coração de alguém que estava fechado. O amor encontra seu caminho.",
+    solteiro: "A chave para o amor que você busca está sendo encontrada — pode ser um entendimento interno sobre o que realmente quer, ou um encontro que abre novas possibilidades.",
+    trabalho: "Solução para um problema profissional, acesso a uma oportunidade que estava bloqueada. A porta certa finalmente se abre — aproveite a abertura.",
+    saude: "Chave para a recuperação — o tratamento certo sendo encontrado, o diagnóstico correto que permite agir. Bom presságio para quem está buscando solução de saúde.",
+    combos: [
+      { card: "Montanha (21)", meaning: "O obstáculo tem solução — o caminho está sendo revelado" },
+      { card: "Livro (26)", meaning: "O segredo será revelado — a informação oculta virá à tona" },
+      { card: "Caminhos (22)", meaning: "A escolha certa está clara — uma das direções é definitivamente melhor" },
+      { card: "Caixão (8)", meaning: "A solução passa por deixar algo morrer — o fim de um ciclo abre o próximo" },
+    ]
+  },
+  {
+    id: 34, name: "Peixe", kw: "Dinheiro, fluxo, abundância",
+    tags: ['trabalho'],
+    element: "Elemento: Água · Energia: Fluida, abundante",
+    summary: "O Peixe representa o fluxo de recursos — dinheiro, energia, informação — e a abundância que vem quando se permite que as coisas fluam naturalmente.",
+    keywords: ["Dinheiro", "Abundância", "Fluxo", "Negócios", "Profundidade"],
+    pos: "Abundância financeira, fluxo positivo de dinheiro, negócios prósperos.",
+    neg: "Gastos excessivos, dinheiro que escoa sem controle, negócios com muitos riscos.",
+    geral: "O Peixe nada em abundância. É a carta financeira por excelência do Baralho Cigano — onde ele aparece, o dinheiro está circulando. Pode ser receita, investimento, herança, rendimentos. Mas como água que corre, o dinheiro que chega também pode ir embora — especialmente com Ratos (23) ao lado. O Peixe também representa profundidade emocional, negócios e a capacidade de nadar em águas complexas sem se perder.",
+    conselho: "O fluxo financeiro está presente — mas fluxo pode ser de entrada ou de saída. Observe para onde seu dinheiro está indo e construa estruturas que garantam que a abundância permaneça.",
+    amor: "Relacionamento onde há generosidade mútua, ou onde o dinheiro é um tema relevante. Pode indicar um parceiro financeiramente estável ou uma relação que tem a questão material como elemento importante.",
+    solteiro: "Possibilidade de encontrar alguém em contexto profissional ou de negócios. Ou um período de abundância pessoal que atrai relacionamentos de qualidade.",
+    trabalho: "Excelente carta de negócios. Fluxo de caixa positivo, contratos rentáveis, investimentos que rendem. Bom momento para empreender ou expandir.",
+    saude: "Sistema linfático, rins, sistema circulatório — fluidos corporais. Hidratação e atenção ao equilíbrio hídrico. Emocional: a profundidade dos sentimentos precisa ter uma saída saudável.",
+    combos: [
+      { card: "Urso (15)", meaning: "Grande riqueza, abundância de dinheiro, herança ou grande contrato" },
+      { card: "Ratos (23)", meaning: "Perdas financeiras — dinheiro saindo mais rápido do que entra" },
+      { card: "Anel (25)", meaning: "Contrato financeiro lucrativo, sociedade rentável" },
+      { card: "Navio (3)", meaning: "Negócios internacionais, transações financeiras com o exterior" },
+    ]
+  },
+  {
+    id: 35, name: "Âncora", kw: "Estabilidade, trabalho, persistência",
+    tags: ['trabalho'],
+    element: "Elemento: Terra · Energia: Firme, persistente",
+    summary: "A Âncora fixa o que precisa permanecer estável — representa a estabilidade conquistada, o trabalho que sustenta e a persistência que eventualmente traz resultados.",
+    keywords: ["Estabilidade", "Trabalho", "Persistência", "Segurança", "Porto Seguro"],
+    pos: "Estabilidade bem conquistada, trabalho sólido, persistência que traz resultados duradouros.",
+    neg: "Estagnação, preso numa situação que não muda, incapacidade de se mover.",
+    geral: "A Âncora mantém o navio no lugar. Ela representa a estabilidade — às vezes desejada (um porto seguro) e às vezes indesejada (preso quando queria navegar). Em contextos profissionais, é uma das cartas de trabalho mais positivas — indica dedicação, perseverança e resultados concretos. Em contextos pessoais, pode indicar que é hora de se fixar em algo, ou alternativamente, que você está preso quando deveria estar em movimento.",
+    conselho: "Avalie se a estabilidade que você tem é porto seguro ou âncora que prende. Quando é porto: descanse e consolide. Quando é âncora: é hora de levantar e navegar.",
+    amor: "Relacionamento estável e duradouro. Amor que persiste além das dificuldades. Pode indicar uma relação muito segura mas que perdeu a paixão — ou uma base sólida para reconstruir.",
+    solteiro: "Você está num período de estabilidade pessoal — pode ser necessário antes de se abrir para um novo amor. Ou você pode estar preso a padrões antigos que impedem novos encontros.",
+    trabalho: "Carta de trabalho excelente — emprego estável, carreira sólida, negócio que sustenta. Dedicação e persistência são recompensadas. Bom para carreiras que exigem constância.",
+    saude: "Bom para estabelecer e manter rotinas saudáveis. Estabilidade emocional como base para saúde física. O corpo precisa de consistência — não de mudanças radicais.",
+    combos: [
+      { card: "Navio (3)", meaning: "Equilíbrio entre estabilidade e movimento — hora de partir ou de ficar?" },
+      { card: "Peixe (34)", meaning: "Trabalho muito rentável e estável, segurança financeira sólida" },
+      { card: "Sol (31)", meaning: "Sucesso duradouro e estável — não é temporário, mas construído para ficar" },
+      { card: "Ratos (23)", meaning: "A estabilidade está sendo corroída — atenção para o que está desgastando suas bases" },
+    ]
+  },
+  {
+    id: 36, name: "Cruz", kw: "Destino, fardo, espiritualidade",
+    tags: ['espiritual', 'desafio'],
+    element: "Elemento: Terra · Energia: Destinal, espiritual",
+    summary: "A Cruz é o peso do destino — o fardo que vem para ensinar, as provações espirituais e o reconhecimento de que certas situações fazem parte de um plano maior.",
+    keywords: ["Destino", "Fardo", "Espiritualidade", "Karma", "Sofrimento"],
+    pos: "Crescimento espiritual profundo através da adversidade, karma se resolvendo.",
+    neg: "Peso excessivo, fardo que esmaga, situação que parece não ter saída.",
+    geral: "A Cruz é o fardo que não se escolhe — mas que se carrega. É a carta mais espiritual e kármica do baralho. Representa situações que parecem inevitáveis, que fazem parte de um destino maior, de uma lição que a alma escolheu aprender antes de vir ao mundo. Isso não significa que deve ser aceita passivamente — mas que há um ensinamento profundo naquele sofrimento. Junto com a Estrela (16), indica destino se cumprindo. Sozinha, pede que se pergunte: o que esta experiência veio me ensinar?",
+    conselho: "Pergunte não apenas 'por que isso está acontecendo comigo?' mas 'o que isso veio me ensinar?' A Cruz não pune — ela transforma. Confie no processo, mesmo que doa.",
+    amor: "Um amor marcado pelo destino — seja uma conexão kármica intensa, seja uma relação que carrega um peso a ser resolvido. Pode indicar que o relacionamento tem raízes em vidas passadas ou padrões que precisam ser encerrados.",
+    solteiro: "Você pode estar num período de prova espiritual antes de encontrar o amor que merece. O sofrimento atual tem um propósito — confie que o que virá será melhor.",
+    trabalho: "Situação profissional que carrega um peso kármico — talvez uma injustiça, um sacrifício necessário. Também pode indicar trabalhos com espiritualidade ou ajuda humanitária.",
+    saude: "Condição de saúde que é um fardo pesado mas que tem uma lição. Tratamentos longos e difíceis. Também pode indicar o valor de práticas espirituais na recuperação.",
+    combos: [
+      { card: "Estrela (16)", meaning: "Destino se cumprindo — a provação tem propósito espiritual elevado" },
+      { card: "Sol (31)", meaning: "O fardo será superado — a luz chega após a escuridão" },
+      { card: "Árvore (5)", meaning: "Karma familiar, padrões herdados de geração em geração" },
+      { card: "Chave (33)", meaning: "A saída do fardo existe — o caminho de libertação está sendo mostrado" },
+    ]
+  },
 ];
 
 /* ===========================
@@ -1076,6 +2356,33 @@ let question      = '';
 let shuffledDeck  = [];
 let pickedCards   = [];
 let canPick       = false;
+let currentCardIndex = 0;
+let currentTab    = 'geral';
+let activeCategory = 'all';
+
+/* ===========================
+   NAV
+=========================== */
+function navTo(section) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (section === 'cartas') {
+    document.getElementById('nav-cartas').classList.add('active');
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+    document.getElementById('p-cards').classList.add('active');
+    buildLibrary();
+  } else {
+    document.getElementById('nav-oraculo').classList.add('active');
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+    if (pickedCards.length === 9) {
+      document.getElementById('p3').classList.add('active');
+    } else if (shuffledDeck.length > 0) {
+      document.getElementById('p2').classList.add('active');
+    } else {
+      document.getElementById('p1').classList.add('active');
+    }
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 /* ===========================
    STARFIELD
@@ -1084,20 +2391,15 @@ let canPick       = false;
   const cv = document.getElementById('star-canvas');
   const cx = cv.getContext('2d');
   let stars = [];
-
   function resize() {
     cv.width  = window.innerWidth;
     cv.height = window.innerHeight;
     stars = Array.from({ length: 220 }, () => ({
-      x:  Math.random() * cv.width,
-      y:  Math.random() * cv.height,
-      r:  Math.random() * 1.4 + .2,
-      a:  Math.random(),
-      d:  Math.random() > .5 ? 1 : -1,
-      sp: Math.random() * .4 + .08
+      x: Math.random() * cv.width, y: Math.random() * cv.height,
+      r: Math.random() * 1.4 + .2, a: Math.random(),
+      d: Math.random() > .5 ? 1 : -1, sp: Math.random() * .4 + .08
     }));
   }
-
   function draw() {
     cx.clearRect(0, 0, cv.width, cv.height);
     stars.forEach(s => {
@@ -1110,9 +2412,7 @@ let canPick       = false;
     });
     requestAnimationFrame(draw);
   }
-
-  resize();
-  draw();
+  resize(); draw();
   window.addEventListener('resize', resize);
 })();
 
@@ -1122,6 +2422,13 @@ let canPick       = false;
 function showPhase(id) {
   document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if (id === 'p-cards') {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('nav-cartas').classList.add('active');
+  } else {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('nav-oraculo').classList.add('active');
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1150,35 +2457,25 @@ function doShuffle() {
   const btn = document.getElementById('btn-shuffle');
   btn.disabled = true;
   btn.textContent = '✦  Embaralhando...  ✦';
-
-  // Randomise deck
   shuffledDeck = [...CARDS].sort(() => Math.random() - .5);
   pickedCards  = [];
   canPick      = false;
-
-  // Build the grid of 36 face-down cards
   buildGrid();
-
   const spreadWrap  = document.getElementById('spread-wrap');
   const readingArea = document.getElementById('reading-area');
   readingArea.style.display = 'none';
-
   spreadWrap.style.display   = 'block';
   spreadWrap.style.opacity   = '0';
   spreadWrap.style.transition = 'opacity .4s';
-
-  // Staggered card appearance
   const wrappers = document.querySelectorAll('#card-grid .cw');
   wrappers.forEach((w, i) => {
     w.style.opacity   = '0';
     w.style.transform = `scale(.5) rotate(${(Math.random() * 50 - 25).toFixed(1)}deg)`;
     w.style.transition = 'none';
-    // random shuffle CSS vars
     w.style.setProperty('--sr', `${(Math.random() * 40 - 20).toFixed(1)}deg`);
     w.style.setProperty('--sx', `${(Math.random() * 60 - 30).toFixed(0)}px`);
     w.style.setProperty('--sy', `${(Math.random() * 40 - 20).toFixed(0)}px`);
   });
-
   setTimeout(() => {
     spreadWrap.style.opacity = '1';
     wrappers.forEach((w, i) => {
@@ -1188,10 +2485,7 @@ function doShuffle() {
         w.style.transform  = 'scale(1) rotate(0deg)';
       }, i * 28);
     });
-
     const totalDelay = wrappers.length * 28 + 500;
-
-    // After all cards appear: do a shuffle animation pass
     setTimeout(() => {
       wrappers.forEach((w, i) => {
         setTimeout(() => {
@@ -1199,21 +2493,13 @@ function doShuffle() {
           w.addEventListener('animationend', () => w.classList.remove('anim-shuffle'), { once: true });
         }, i * 18);
       });
-
-      // After shuffle animation: enable picking
       setTimeout(() => {
         document.getElementById('phase-sub').textContent = 'Escolha 9 cartas para sua leitura';
         btn.style.display = 'none';
-
-        // Build reading slots
         buildReadingSlots();
         readingArea.style.display = 'block';
-
         canPick = true;
-        wrappers.forEach(w => {
-          w.classList.add('sel');
-          w.style.cursor = 'pointer';
-        });
+        wrappers.forEach(w => { w.classList.add('sel'); w.style.cursor = 'pointer'; });
       }, wrappers.length * 18 + 1000);
     }, totalDelay);
   }, 80);
@@ -1226,14 +2512,9 @@ function buildGrid() {
     const w = document.createElement('div');
     w.className   = 'cw';
     w.dataset.idx = idx;
-    w.innerHTML   = `
-      <div class="ci">
-        <div class="cf cb"><div class="cb-inner"></div></div>
-        <div class="cf cfr">
-          <img src="${card.id}.jpeg" alt="${card.name}"
-               onerror="this.parentElement.style.background='#0d0420';this.style.display='none'">
-        </div>
-      </div>`;
+    w.innerHTML   = `<div class="ci"><div class="cf cb"><div class="cb-inner"></div></div>
+      <div class="cf cfr"><img src="${card.id}.jpeg" alt="${card.name}"
+        onerror="this.parentElement.style.background='#0d0420';this.style.display='none'"></div></div>`;
     w.addEventListener('click', onCardClick);
     grid.appendChild(w);
   });
@@ -1246,49 +2527,30 @@ function buildReadingSlots() {
     const rs = document.createElement('div');
     rs.className = 'rs';
     rs.id = `rs-${i}`;
-    rs.innerHTML = `
-      <div class="rs-img" id="rsimg-${i}"><span class="rs-num">${i + 1}</span></div>
-      <span class="rs-name" id="rsname-${i}"></span>
-      <span class="rs-kw"   id="rskw-${i}"></span>`;
+    rs.innerHTML = `<div class="rs-img" id="rsimg-${i}"><span class="rs-num">${i + 1}</span></div>
+      <span class="rs-name" id="rsname-${i}"></span><span class="rs-kw" id="rskw-${i}"></span>`;
     grid.appendChild(rs);
   }
 }
 
-/* ===========================
-   CARD PICK
-=========================== */
 function onCardClick(e) {
   if (!canPick) return;
   const w = e.currentTarget;
   if (w.classList.contains('picked')) return;
   if (pickedCards.length >= 9) return;
-
   const idx  = parseInt(w.dataset.idx);
   const card = shuffledDeck[idx];
-
-  // Mark in spread
   w.classList.remove('sel');
   w.classList.add('picked');
   w.style.cursor = 'default';
-
-  // Add to picked
   pickedCards.push(card);
   const slot = pickedCards.length - 1;
-
-  // Update counter
   document.getElementById('ctr').textContent = `${pickedCards.length} / 9`;
-
-  // Reveal in reading area
   fillSlot(slot, card);
-
-  // Done?
   if (pickedCards.length === 9) {
     canPick = false;
-    // Disable remaining
     document.querySelectorAll('#card-grid .cw.sel').forEach(w2 => {
-      w2.classList.remove('sel');
-      w2.style.cursor = 'default';
-      w2.style.opacity = '.25';
+      w2.classList.remove('sel'); w2.style.cursor = 'default'; w2.style.opacity = '.25';
     });
     document.getElementById('phase-sub').textContent = '9 cartas reveladas — leitura completa';
     setTimeout(showComplete, 1400);
@@ -1300,11 +2562,8 @@ function fillSlot(idx, card) {
   imgBox.innerHTML = `<img src="${card.id}.jpeg" alt="${card.name}"
     onerror="this.parentElement.style.background='#1a0830';this.style.display='none'">`;
   imgBox.classList.add('filled');
-
   document.getElementById(`rsname-${idx}`).textContent = card.name;
   document.getElementById(`rskw-${idx}`).textContent   = card.kw;
-
-  // Scroll reading area into view gently
   if (idx === 0) {
     setTimeout(() => {
       document.getElementById('reading-area').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1321,9 +2580,8 @@ function showComplete() {
   pickedCards.forEach(card => {
     const fc = document.createElement('div');
     fc.className = 'fc';
-    fc.innerHTML = `
-      <img src="${card.id}.jpeg" alt="${card.name}"
-           onerror="this.style.background='#1a0830';this.style.display='block';this.style.width='var(--rw)';this.style.height='var(--rh)'">
+    fc.innerHTML = `<img src="${card.id}.jpeg" alt="${card.name}"
+        onerror="this.style.background='#1a0830';this.style.display='block'">
       <span class="fc-name">${card.name}</span>`;
     grid.appendChild(fc);
   });
@@ -1334,39 +2592,27 @@ function showComplete() {
    NOVA CONSULTA
 =========================== */
 function novaConsulta() {
-  question     = '';
-  shuffledDeck = [];
-  pickedCards  = [];
-  canPick      = false;
-
+  question = ''; shuffledDeck = []; pickedCards = []; canPick = false;
   document.getElementById('q-input').value = '';
   document.getElementById('card-grid').innerHTML = '';
   document.getElementById('reading-grid').innerHTML = '';
   document.getElementById('final-grid').innerHTML  = '';
-
   const btn = document.getElementById('btn-shuffle');
-  btn.disabled    = false;
-  btn.style.display = '';
-  btn.textContent = '✦  Embaralhar as Cartas  ✦';
-
+  btn.disabled = false; btn.style.display = ''; btn.textContent = '✦  Embaralhar as Cartas  ✦';
   document.getElementById('ctr').textContent = '0 / 9';
   document.getElementById('phase-sub').textContent = 'Concentre-se em sua pergunta e embaralhe as cartas';
-
   document.getElementById('spread-wrap').style.display  = 'none';
   document.getElementById('reading-area').style.display = 'none';
-
-  // Reset AI section
   const aiBox = document.getElementById('ai-box');
   const aiBtn = document.getElementById('btn-ai');
   aiBox.style.display = 'none';
   aiBtn.disabled = false;
   aiBtn.innerHTML = '<span class="ai-icon">🔮</span> Interpretar com Inteligência Artificial';
-
   showPhase('p1');
 }
 
 /* ===========================
-   AI KEY MANAGEMENT
+   AI KEY
 =========================== */
 function saveKey() {
   const val = document.getElementById('ai-key-input').value.trim();
@@ -1379,23 +2625,18 @@ function saveKey() {
   document.getElementById('ai-key-saved').style.display = 'block';
   document.getElementById('ai-key-input').value = '•'.repeat(20);
 }
+function getKey() { return localStorage.getItem('groq_key') || ''; }
 
-function getKey() {
-  return localStorage.getItem('groq_key') || '';
-}
-
-// On load: if key saved, show compact panel
 window.addEventListener('DOMContentLoaded', () => {
   const k = getKey();
   if (k) {
-    const panel = document.getElementById('ai-key-panel');
     document.getElementById('ai-key-input').value = '•'.repeat(20);
     document.getElementById('ai-key-saved').style.display = 'block';
   }
 });
 
 /* ===========================
-   AI INTERPRETATION — Groq (free)
+   AI INTERPRETATION
 =========================== */
 async function requestAI() {
   const key = getKey();
@@ -1406,97 +2647,46 @@ async function requestAI() {
     setTimeout(() => document.getElementById('ai-key-input').style.borderColor = '', 2000);
     return;
   }
-
-  const btn    = document.getElementById('btn-ai');
-  const aiBox  = document.getElementById('ai-box');
+  const btn = document.getElementById('btn-ai');
+  const aiBox = document.getElementById('ai-box');
   const content = document.getElementById('ai-content');
-
   btn.disabled = true;
   btn.innerHTML = '<span class="ai-icon">🔮</span> Consultando o oráculo...';
   aiBox.style.display = 'block';
-  content.innerHTML = `
-    <div class="ai-loading">
-      <div class="orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
-      <span class="ai-loading-text">O espírito cigano está lendo as cartas...</span>
-    </div>`;
-
+  content.innerHTML = `<div class="ai-loading"><div class="orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+    <span class="ai-loading-text">O espírito cigano está lendo as cartas...</span></div>`;
   aiBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  // Build prompt
   const linhas = [
     pickedCards.slice(0,3).map((c,i) => `  Carta ${i+1}: ${c.name} — ${c.kw}`).join('\n'),
     pickedCards.slice(3,6).map((c,i) => `  Carta ${i+4}: ${c.name} — ${c.kw}`).join('\n'),
     pickedCards.slice(6,9).map((c,i) => `  Carta ${i+7}: ${c.name} — ${c.kw}`).join('\n'),
   ];
-
-  const userPrompt =
-`Pergunta: "${question}"
-
-LINHA 1 — Passado e raiz da situação:
-${linhas[0]}
-
-LINHA 2 — Presente e o caminho em curso:
-${linhas[1]}
-
-LINHA 3 — Futuro provável e conselho das cartas:
-${linhas[2]}
-
-Faça a leitura completa, interpretando as combinações entre as cartas de cada linha e as conexões entre as três linhas. Responda diretamente à pergunta da consultante.`;
-
+  const userPrompt = `Pergunta: "${question}"\n\nLINHA 1 — Passado e raiz da situação:\n${linhas[0]}\n\nLINHA 2 — Presente e o caminho em curso:\n${linhas[1]}\n\nLINHA 3 — Futuro provável e conselho das cartas:\n${linhas[2]}\n\nFaça a leitura completa, interpretando as combinações entre as cartas de cada linha e as conexões entre as três linhas. Responda diretamente à pergunta da consultante.`;
   try {
     const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${key}`
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        temperature: 0.9,
-        max_tokens: 900,
-        stream: true,
+        model: 'llama-3.3-70b-versatile', temperature: 0.9, max_tokens: 900, stream: true,
         messages: [
-          {
-            role: 'system',
-            content: `Você é uma leitora de Baralho Cigano Lenormand com anos de experiência. Sua leitura é humana, aprofundada e totalmente voltada para a situação real da pessoa.
-
-Como você lê:
-- Você absorve a pergunta e lê as cartas como se estivesse contando o que está acontecendo na vida daquela pessoa — não como uma análise, mas como uma conversa direta
-- A sequência das cartas forma uma narrativa: você lê o que uma carta faz com a próxima, como elas se influenciam, o que muda de uma linha pra outra
-- Você vai fundo no que as combinações revelam sobre a situação específica — sentimentos, bloqueios, dinâmicas, o que está por trás do que a pessoa perguntou
-- Nunca diz o nome das cartas no texto
-- Nunca repete a pergunta
-- Nunca usa frases prontas como "as cartas mostram", "o universo indica", "é importante lembrar"
-- Não faz introdução nem conclusão formal — começa já falando sobre a situação
-
-Tom: próximo, humano, como alguém que realmente está vendo a situação da pessoa e fala com cuidado mas sem rodeios. Nem místico exagerado, nem frio. Natural.
-
-Formato: 3 parágrafos em português, um por linha do spread. Cada parágrafo aprofunda o que aquela linha revela sobre a pergunta. Sem markdown.`
-          },
+          { role: 'system', content: `Você é uma leitora de Baralho Cigano Lenormand com anos de experiência. Sua leitura é humana, aprofundada e totalmente voltada para a situação real da pessoa.\n\nComo você lê:\n- Você absorve a pergunta e lê as cartas como se estivesse contando o que está acontecendo na vida daquela pessoa — não como uma análise, mas como uma conversa direta\n- A sequência das cartas forma uma narrativa: você lê o que uma carta faz com a próxima, como elas se influenciam, o que muda de uma linha pra outra\n- Você vai fundo no que as combinações revelam sobre a situação específica — sentimentos, bloqueios, dinâmicas, o que está por trás do que a pessoa perguntou\n- Nunca diz o nome das cartas no texto\n- Nunca repete a pergunta\n- Nunca usa frases prontas como "as cartas mostram", "o universo indica", "é importante lembrar"\n- Não faz introdução nem conclusão formal — começa já falando sobre a situação\n\nTom: próximo, humano, como alguém que realmente está vendo a situação da pessoa e fala com cuidado mas sem rodeios. Nem místico exagerado, nem frio. Natural.\n\nFormato: 3 parágrafos em português, um por linha do spread. Cada parágrafo aprofunda o que aquela linha revela sobre a pergunta. Sem markdown.` },
           { role: 'user', content: userPrompt }
         ]
       })
     });
-
     if (resp.status === 401) throw new Error('Chave inválida ou expirada. Verifique sua chave Groq.');
     if (resp.status === 429) throw new Error('Limite de requisições atingido. Aguarde um momento e tente novamente.');
     if (!resp.ok) throw new Error(`Erro ${resp.status} ao conectar com o oráculo.`);
-
-    // Stream handling
-    const reader  = resp.body.getReader();
+    const reader = resp.body.getReader();
     const decoder = new TextDecoder();
-    let fullText = '';
-    let started  = false;
-
+    let fullText = ''; let started = false;
     const textEl = document.createElement('div');
     textEl.className = 'ai-text';
     const cursor = document.createElement('span');
     cursor.className = 'ai-cursor';
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
       const chunk = decoder.decode(value, { stream: true });
       for (const line of chunk.split('\n')) {
         const trimmed = line.trim();
@@ -1506,12 +2696,7 @@ Formato: 3 parágrafos em português, um por linha do spread. Cada parágrafo ap
         try {
           const delta = JSON.parse(raw)?.choices?.[0]?.delta?.content || '';
           if (delta) {
-            if (!started) {
-              content.innerHTML = '';
-              content.appendChild(textEl);
-              textEl.appendChild(cursor);
-              started = true;
-            }
+            if (!started) { content.innerHTML = ''; content.appendChild(textEl); textEl.appendChild(cursor); started = true; }
             fullText += delta;
             textEl.textContent = fullText;
             textEl.appendChild(cursor);
@@ -1519,59 +2704,43 @@ Formato: 3 parágrafos em português, um por linha do spread. Cada parágrafo ap
         } catch {}
       }
     }
-
     cursor.remove();
     btn.innerHTML = '<span class="ai-icon">✦</span> Leitura concluída';
-
   } catch (err) {
     content.innerHTML = `<p class="ai-error">⚠ ${err.message || 'Erro ao conectar. Verifique sua chave e conexão.'}</p>`;
     btn.disabled = false;
     btn.innerHTML = '<span class="ai-icon">🔮</span> Tentar novamente';
-
-    // If auth error, highlight key input
     if (err.message.includes('inválida') || err.message.includes('401')) {
       localStorage.removeItem('groq_key');
       document.getElementById('ai-key-input').value = '';
       document.getElementById('ai-key-saved').style.display = 'none';
       document.getElementById('ai-key-panel').scrollIntoView({ behavior: 'smooth' });
     }
-    console.error(err);
   }
 }
 
 /* ===========================
-   CONSULTAR LARA — WhatsApp
+   CONSULTAR LARA
 =========================== */
 async function consultarLara() {
-  const btn     = document.getElementById('btn-lara');
+  const btn = document.getElementById('btn-lara');
   const overlay = document.getElementById('capture-overlay');
-  const msg     = overlay.querySelector('.capture-msg');
-
+  const msg = overlay.querySelector('.capture-msg');
   btn.disabled = true;
   overlay.classList.add('show');
   msg.textContent = 'Capturando sua tiragem...';
-
-  // Build clean capture element
   const captureEl = document.createElement('div');
-  captureEl.style.cssText = `
-    position:fixed;top:-9999px;left:-9999px;
-    background:#060410;padding:32px 28px;border-radius:14px;
-    border:1px solid #5a4218;width:400px;font-family:Georgia,serif;
-  `;
-
+  captureEl.style.cssText = `position:fixed;top:-9999px;left:-9999px;background:#060410;padding:32px 28px;border-radius:14px;border:1px solid #5a4218;width:400px;font-family:Georgia,serif;`;
   const titleEl = document.createElement('div');
   titleEl.style.cssText = 'color:#c9a050;font-size:15px;letter-spacing:.2em;text-align:center;margin-bottom:6px;';
   titleEl.textContent = '✦  Baralho Cigano  ✦';
   captureEl.appendChild(titleEl);
-
   const qEl = document.createElement('div');
   qEl.style.cssText = 'color:#c0a870;font-size:12px;font-style:italic;text-align:center;margin-bottom:20px;line-height:1.5;padding:0 8px;';
   qEl.textContent = `"${question}"`;
   captureEl.appendChild(qEl);
-
   const gridEl = document.createElement('div');
   gridEl.style.cssText = 'display:grid;grid-template-columns:repeat(3,110px);gap:12px;justify-content:center;margin-bottom:16px;';
-
   pickedCards.forEach(card => {
     const cell = document.createElement('div');
     cell.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:5px;';
@@ -1582,62 +2751,163 @@ async function consultarLara() {
     const name = document.createElement('div');
     name.style.cssText = 'color:#c9a050;font-size:10px;letter-spacing:.1em;text-align:center;';
     name.textContent = card.name;
-    cell.appendChild(img);
-    cell.appendChild(name);
-    gridEl.appendChild(cell);
+    cell.appendChild(img); cell.appendChild(name); gridEl.appendChild(cell);
   });
   captureEl.appendChild(gridEl);
-
   const labelsEl = document.createElement('div');
   labelsEl.style.cssText = 'display:flex;justify-content:space-around;color:#6a5830;font-size:10px;letter-spacing:.15em;';
-  ['Passado','Presente','Futuro'].forEach(l => {
-    const s = document.createElement('span'); s.textContent = l; labelsEl.appendChild(s);
-  });
+  ['Passado','Presente','Futuro'].forEach(l => { const s = document.createElement('span'); s.textContent = l; labelsEl.appendChild(s); });
   captureEl.appendChild(labelsEl);
   document.body.appendChild(captureEl);
-
-  // Wait for images
   const imgs = captureEl.querySelectorAll('img');
-  await Promise.all(Array.from(imgs).map(img =>
-    img.complete ? Promise.resolve()
-    : new Promise(r => { img.onload = r; img.onerror = r; })
-  ));
-
+  await Promise.all(Array.from(imgs).map(img => img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; })));
   msg.textContent = 'Gerando imagem...';
-
   const cardNames = pickedCards.map((c, i) => `${i+1}. ${c.name}`).join('\n');
-  const waText = encodeURIComponent(
-`Olá Lara! Gostaria de uma consulta 🃏\n\n*Minha pergunta:*\n${question}\n\n*Cartas tiradas (em ordem):*\n${cardNames}\n\n_Segue em anexo a imagem da tiragem._`
-  );
-
+  const waText = encodeURIComponent(`Olá Lara! Gostaria de uma consulta 🃏\n\n*Minha pergunta:*\n${question}\n\n*Cartas tiradas (em ordem):*\n${cardNames}\n\n_Segue em anexo a imagem da tiragem._`);
   try {
-    const canvas = await html2canvas(captureEl, {
-      backgroundColor: '#060410', scale: 2,
-      useCORS: true, allowTaint: true, logging: false
-    });
+    const canvas = await html2canvas(captureEl, { backgroundColor: '#060410', scale: 2, useCORS: true, allowTaint: true, logging: false });
     document.body.removeChild(captureEl);
-
     msg.textContent = 'Baixando imagem...';
     const link = document.createElement('a');
     link.download = 'tiragem-baralho-cigano.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-
     msg.textContent = 'Abrindo WhatsApp...';
-    setTimeout(() => {
-      overlay.classList.remove('show');
-      btn.disabled = false;
-      window.open(`https://wa.me/5553991359285?text=${waText}`, '_blank');
-    }, 1000);
-
+    setTimeout(() => { overlay.classList.remove('show'); btn.disabled = false; window.open(`https://wa.me/5553991359285?text=${waText}`, '_blank'); }, 1000);
   } catch (err) {
     if (document.body.contains(captureEl)) document.body.removeChild(captureEl);
-    overlay.classList.remove('show');
-    btn.disabled = false;
-    console.error('Captura falhou, abrindo WhatsApp sem imagem:', err);
+    overlay.classList.remove('show'); btn.disabled = false;
     window.open(`https://wa.me/5553991359285?text=${waText}`, '_blank');
   }
 }
+
+/* ===========================
+   CARD LIBRARY
+=========================== */
+let libraryBuilt = false;
+
+function buildLibrary() {
+  if (libraryBuilt) return;
+  libraryBuilt = true;
+  const grid = document.getElementById('library-grid');
+  grid.innerHTML = '';
+  CARDS.forEach((card, idx) => {
+    const el = document.createElement('div');
+    el.className = 'lib-card';
+    el.dataset.idx = idx;
+    el.dataset.tags = card.tags.join(',');
+    el.dataset.name = card.name.toLowerCase();
+    el.dataset.kw = card.kw.toLowerCase();
+    el.innerHTML = `
+      <div class="lib-card-img">
+        <span class="lib-card-num">${card.id}</span>
+        <img src="${card.id}.jpeg" alt="${card.name}" loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="lib-card-name">${card.name}</div>
+      <div class="lib-card-kw">${card.kw}</div>`;
+    el.addEventListener('click', () => openModal(idx));
+    grid.appendChild(el);
+  });
+}
+
+function filterCards() {
+  const q = document.getElementById('cards-search').value.toLowerCase().trim();
+  document.querySelectorAll('.lib-card').forEach(el => {
+    const matchSearch = !q || el.dataset.name.includes(q) || el.dataset.kw.includes(q);
+    const matchCat = activeCategory === 'all' || el.dataset.tags.includes(activeCategory);
+    el.classList.toggle('hidden', !(matchSearch && matchCat));
+  });
+}
+
+function filterByCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
+
+/* ===========================
+   MODAL
+=========================== */
+function openModal(idx) {
+  currentCardIndex = idx;
+  renderModal(idx);
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchTabById('geral');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+function renderModal(idx) {
+  const card = CARDS[idx];
+  const img = document.getElementById('modal-img');
+  const placeholder = document.getElementById('modal-img-placeholder');
+  img.src = `${card.id}.jpeg`;
+  img.alt = card.name;
+  img.style.display = 'block';
+  placeholder.style.display = 'none';
+  document.getElementById('modal-num').textContent = `Carta ${card.id} de 36`;
+  document.getElementById('modal-name').textContent = card.name;
+  document.getElementById('modal-element').textContent = card.element;
+  document.getElementById('modal-summary').textContent = card.summary;
+  const kwWrap = document.getElementById('modal-kw-wrap');
+  kwWrap.innerHTML = card.keywords.map(k => `<span class="modal-kw-tag">${k}</span>`).join('');
+  document.getElementById('modal-pos').textContent = card.pos;
+  document.getElementById('modal-neg').textContent = card.neg;
+  document.getElementById('modal-geral').textContent = card.geral;
+  document.getElementById('modal-conselho').textContent = card.conselho;
+  document.getElementById('modal-amor').textContent = card.amor;
+  document.getElementById('modal-solteiro').textContent = card.solteiro;
+  document.getElementById('modal-trabalho').textContent = card.trabalho;
+  document.getElementById('modal-saude').textContent = card.saude;
+  const combosGrid = document.getElementById('modal-combos');
+  combosGrid.innerHTML = card.combos.map(c => `
+    <div class="combo-item">
+      <div class="combo-card-name">+ ${c.card}</div>
+      <p class="combo-meaning">${c.meaning}</p>
+    </div>`).join('');
+  document.getElementById('modal-prev').disabled = idx === 0;
+  document.getElementById('modal-next').disabled = idx === CARDS.length - 1;
+  document.getElementById('modal-nav-indicator').textContent = `${idx + 1} / ${CARDS.length}`;
+}
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById(`tab-${tabId}`).classList.add('active');
+  currentTab = tabId;
+}
+
+function switchTabById(tabId) {
+  const btn = document.querySelector(`.modal-tab[onclick*="'${tabId}'"]`);
+  switchTab(tabId, btn);
+}
+
+function navigateCard(dir) {
+  const newIdx = currentCardIndex + dir;
+  if (newIdx < 0 || newIdx >= CARDS.length) return;
+  currentCardIndex = newIdx;
+  renderModal(currentCardIndex);
+  switchTabById(currentTab);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('modal-overlay').classList.contains('open')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight') navigateCard(1);
+  if (e.key === 'ArrowLeft') navigateCard(-1);
+});
 </script>
 </body>
 </html>
