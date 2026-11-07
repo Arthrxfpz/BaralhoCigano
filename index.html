@@ -324,22 +324,19 @@ button{font-family:var(--label);color:inherit}
     </div>
     <div class="ai-section">
       <div class="ai-key-panel" id="ai-key-panel">
-        <div class="ai-key-title"> Interpretação por inteligência artificial</div>
-        <p class="ai-key-desc">
-          Para usar a IA, você precisa de uma chave <strong>Groq</strong> — gratuita, sem cartão de crédito.<br>
-          <a href="https://console.groq.com/keys" target="_blank">→ Criar chave grátis em console.groq.com</a>
-        </p>
+        <div class="ai-key-title"> Interpretação com Claude</div>
+        <p class="ai-key-desc">Para a interpretação, cole uma chave de API da <strong>Anthropic</strong> (Claude). Ela fica salva apenas neste navegador.<br><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Criar chave em console.anthropic.com</a></p>
         <div class="ai-key-row">
-          <input type="password" id="ai-key-input" class="ai-key-input" placeholder="Cole sua chave Groq aqui (gsk_...)" autocomplete="off" />
+          <input type="password" id="ai-key-input" class="ai-key-input" placeholder="Cole sua chave da Anthropic (sk-ant-...)" autocomplete="off" />
           <button class="ai-key-save" onclick="saveKey()">Salvar</button>
         </div>
         <div class="ai-key-saved" id="ai-key-saved">✓ Chave salva — pronta para usar</div>
       </div>
       <button class="btn-ai" id="btn-ai" onclick="requestAI()">
-        <span class="ai-icon">🔮</span> Interpretar com inteligência artificial
+        <span class="ai-icon">🔮</span> Interpretar com Claude
       </button>
       <div class="ai-box" id="ai-box">
-        <div class="ai-box-label">Interpretação do Oráculo</div>
+        <div class="ai-box-label">Interpretação do oráculo</div>
         <div id="ai-content"></div>
       </div>
     </div>
@@ -1565,30 +1562,34 @@ function novaConsulta() {
   const aiBtn = document.getElementById('btn-ai');
   aiBox.style.display = 'none';
   aiBtn.disabled = false;
-  aiBtn.innerHTML = '<span class="ai-icon">🔮</span> Interpretar com inteligência artificial';
+  aiBtn.innerHTML = '<span class="ai-icon">🔮</span> Interpretar com Claude';
   showPhase('p1');
 }
 
 /* ===========================
-   AI KEY
+   AI KEY (Claude / Anthropic)
 =========================== */
+const CLAUDE_MODEL = 'claude-sonnet-5-5';
+const KEY_STORE = 'anthropic_key';
+
 function saveKey() {
-  const val = document.getElementById('ai-key-input').value.trim();
-  if (!val.startsWith('gsk_') || val.length < 20) {
-    document.getElementById('ai-key-input').style.borderColor = 'rgba(240,100,100,.6)';
-    setTimeout(() => document.getElementById('ai-key-input').style.borderColor = '', 1500);
+  const inp = document.getElementById('ai-key-input');
+  const val = inp.value.trim();
+  if (!val.startsWith('sk-ant-') || val.length < 30) {
+    inp.style.borderColor = 'rgba(240,100,100,.8)';
+    setTimeout(() => inp.style.borderColor = '', 1800);
     return;
   }
-  localStorage.setItem('groq_key', val);
+  localStorage.setItem(KEY_STORE, val);
   document.getElementById('ai-key-saved').style.display = 'block';
-  document.getElementById('ai-key-input').value = '•'.repeat(20);
+  inp.value = '•'.repeat(20);
 }
-function getKey() { return localStorage.getItem('groq_key') || ''; }
+function getKey() { return localStorage.getItem(KEY_STORE) || ''; }
 
 window.addEventListener('DOMContentLoaded', () => {
+  localStorage.removeItem('groq_key');
   document.getElementById('q-input').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) startReading(); });
-  const k = getKey();
-  if (k) {
+  if (getKey()) {
     document.getElementById('ai-key-input').value = '•'.repeat(20);
     document.getElementById('ai-key-saved').style.display = 'block';
   }
@@ -1597,81 +1598,123 @@ window.addEventListener('DOMContentLoaded', () => {
 /* ===========================
    AI INTERPRETATION
 =========================== */
+const CLAUDE_SYSTEM = `Você é uma leitora de Baralho Cigano Lenormand com anos de experiência. Sua leitura é humana, aprofundada e totalmente voltada para a situação real da pessoa.
+
+Como você lê:
+- Você absorve a pergunta e lê as cartas como se estivesse contando o que está acontecendo na vida daquela pessoa — não como uma análise, mas como uma conversa direta
+- A sequência das cartas forma uma narrativa: você lê o que uma carta faz com a próxima, como elas se influenciam, o que muda de uma linha pra outra
+- Você vai fundo no que as combinações revelam sobre a situação específica — sentimentos, bloqueios, dinâmicas, o que está por trás do que a pessoa perguntou
+- Nunca diz o nome das cartas no texto
+- Nunca repete a pergunta
+- Nunca usa frases prontas como "as cartas mostram", "o universo indica", "é importante lembrar"
+- Não faz introdução nem conclusão formal — começa já falando sobre a situação
+
+Tom: próximo, humano, como alguém que realmente está vendo a situação da pessoa e fala com cuidado mas sem rodeios. Nem místico exagerado, nem frio. Natural.
+
+Formato: 3 parágrafos em português, um por linha do spread. Cada parágrafo aprofunda o que aquela linha revela sobre a pergunta. Sem markdown.`;
+
+function claudeError(status, body) {
+  const msg = body?.error?.message || '';
+  const e = new Error(
+    status === 401 ? 'Chave inválida ou revogada. Confira sua chave da Anthropic.' :
+    status === 403 ? 'Esta chave não tem permissão para usar o modelo.' :
+    status === 404 ? 'Modelo não encontrado. Atualize o nome do modelo no código.' :
+    status === 429 ? 'Limite de requisições atingido. Aguarde um momento e tente de novo.' :
+    status === 529 || status >= 500 ? 'O Claude está sobrecarregado agora. Tente novamente em instantes.' :
+    /credit/i.test(msg) ? 'Sua conta da Anthropic está sem saldo. Adicione créditos em console.anthropic.com.' :
+    `Erro ${status} ao falar com o Claude.${msg ? ' ' + msg : ''}`);
+  e.authFail = status === 401;
+  return e;
+}
+
 async function requestAI() {
   const key = getKey();
+  const keyInp = document.getElementById('ai-key-input');
   if (!key) {
     document.getElementById('ai-key-panel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    document.getElementById('ai-key-input').focus();
-    document.getElementById('ai-key-input').style.borderColor = 'rgba(240,100,100,.6)';
-    setTimeout(() => document.getElementById('ai-key-input').style.borderColor = '', 2000);
+    keyInp.focus();
+    keyInp.style.borderColor = 'rgba(240,100,100,.8)';
+    setTimeout(() => keyInp.style.borderColor = '', 2000);
     return;
   }
   const btn = document.getElementById('btn-ai');
   const aiBox = document.getElementById('ai-box');
   const content = document.getElementById('ai-content');
   btn.disabled = true;
-  btn.innerHTML = '<span class="ai-icon">🔮</span> Consultando o oráculo...';
+  btn.textContent = 'Consultando o oráculo...';
   aiBox.style.display = 'block';
   content.innerHTML = `<div class="ai-loading"><div class="orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
     <span class="ai-loading-text">O espírito cigano está lendo as cartas...</span></div>`;
   aiBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  const linhas = [
-    pickedCards.slice(0,3).map((c,i) => `  Carta ${i+1}: ${c.name} — ${c.kw}`).join('\n'),
-    pickedCards.slice(3,6).map((c,i) => `  Carta ${i+4}: ${c.name} — ${c.kw}`).join('\n'),
-    pickedCards.slice(6,9).map((c,i) => `  Carta ${i+7}: ${c.name} — ${c.kw}`).join('\n'),
-  ];
-  const userPrompt = `Pergunta: "${question}"\n\nLINHA 1 — Passado e raiz da situação:\n${linhas[0]}\n\nLINHA 2 — Presente e o caminho em curso:\n${linhas[1]}\n\nLINHA 3 — Futuro provável e conselho das cartas:\n${linhas[2]}\n\nFaça a leitura completa, interpretando as combinações entre as cartas de cada linha e as conexões entre as três linhas. Responda diretamente à pergunta da consultante.`;
+
+  const linha = (a, b) => pickedCards.slice(a, b).map((c, i) => `  Carta ${a + i + 1}: ${c.name} — ${c.kw}`).join('\n');
+  const userPrompt = `Pergunta: "${question}"\n\nLINHA 1 — Passado e raiz da situação:\n${linha(0,3)}\n\nLINHA 2 — Presente e o caminho em curso:\n${linha(3,6)}\n\nLINHA 3 — Futuro provável e conselho das cartas:\n${linha(6,9)}\n\nFaça a leitura completa, interpretando as combinações entre as cartas de cada linha e as conexões entre as três linhas. Responda diretamente à pergunta da consultante.`;
+
   try {
-    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile', temperature: 0.9, max_tokens: 900, stream: true,
-        messages: [
-          { role: 'system', content: `Você é uma leitora de Baralho Cigano Lenormand com anos de experiência. Sua leitura é humana, aprofundada e totalmente voltada para a situação real da pessoa.\n\nComo você lê:\n- Você absorve a pergunta e lê as cartas como se estivesse contando o que está acontecendo na vida daquela pessoa — não como uma análise, mas como uma conversa direta\n- A sequência das cartas forma uma narrativa: você lê o que uma carta faz com a próxima, como elas se influenciam, o que muda de uma linha pra outra\n- Você vai fundo no que as combinações revelam sobre a situação específica — sentimentos, bloqueios, dinâmicas, o que está por trás do que a pessoa perguntou\n- Nunca diz o nome das cartas no texto\n- Nunca repete a pergunta\n- Nunca usa frases prontas como "as cartas mostram", "o universo indica", "é importante lembrar"\n- Não faz introdução nem conclusão formal — começa já falando sobre a situação\n\nTom: próximo, humano, como alguém que realmente está vendo a situação da pessoa e fala com cuidado mas sem rodeios. Nem místico exagerado, nem frio. Natural.\n\nFormato: 3 parágrafos em português, um por linha do spread. Cada parágrafo aprofunda o que aquela linha revela sobre a pergunta. Sem markdown.` },
-          { role: 'user', content: userPrompt }
-        ]
+        model: CLAUDE_MODEL,
+        max_tokens: 1500,
+        stream: true,
+        system: CLAUDE_SYSTEM,
+        messages: [{ role: 'user', content: userPrompt }]
       })
     });
-    if (resp.status === 401) throw new Error('Chave inválida ou expirada. Verifique sua chave Groq.');
-    if (resp.status === 429) throw new Error('Limite de requisições atingido. Aguarde um momento e tente novamente.');
-    if (!resp.ok) throw new Error(`Erro ${resp.status} ao conectar com o oráculo.`);
+    if (!resp.ok) {
+      let body = null; try { body = await resp.json(); } catch {}
+      throw claudeError(resp.status, body);
+    }
+
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
-    let fullText = ''; let started = false;
     const textEl = document.createElement('div');
     textEl.className = 'ai-text';
     const cursor = document.createElement('span');
     cursor.className = 'ai-cursor';
+    let full = '', started = false, buf = '';
+
+    const handle = raw => {
+      let ev; try { ev = JSON.parse(raw); } catch { return; }
+      if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta' && ev.delta.text) {
+        if (!started) { content.innerHTML = ''; content.appendChild(textEl); started = true; }
+        full += ev.delta.text;
+        textEl.textContent = full;
+        textEl.appendChild(cursor);
+      } else if (ev.type === 'error') {
+        throw claudeError(ev.error?.type === 'overloaded_error' ? 529 : 500, ev);
+      }
+    };
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      for (const line of chunk.split('\n')) {
-        const trimmed = line.trim();
-        if (!trimmed.startsWith('data:')) continue;
-        const raw = trimmed.slice(5).trim();
-        if (raw === '[DONE]') continue;
-        try {
-          const delta = JSON.parse(raw)?.choices?.[0]?.delta?.content || '';
-          if (delta) {
-            if (!started) { content.innerHTML = ''; content.appendChild(textEl); textEl.appendChild(cursor); started = true; }
-            fullText += delta;
-            textEl.textContent = fullText;
-            textEl.appendChild(cursor);
-          }
-        } catch {}
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop();
+      for (const line of lines) {
+        const t = line.trim();
+        if (t.startsWith('data:')) handle(t.slice(5).trim());
       }
     }
+    if (buf.trim().startsWith('data:')) handle(buf.trim().slice(5).trim());
     cursor.remove();
-    btn.innerHTML = '<span class="ai-icon">✦</span> Leitura concluída';
+    if (!started) throw new Error('O Claude não devolveu nenhum texto. Tente novamente.');
+    btn.textContent = 'Leitura concluída';
   } catch (err) {
-    content.innerHTML = `<p class="ai-error">⚠ ${err.message || 'Erro ao conectar. Verifique sua chave e conexão.'}</p>`;
+    content.innerHTML = `<p class="ai-error"></p>`;
+    content.firstChild.textContent = '⚠ ' + (err.message || 'Erro ao conectar. Verifique sua chave e sua conexão.');
     btn.disabled = false;
-    btn.innerHTML = '<span class="ai-icon">🔮</span> Tentar novamente';
-    if (err.message.includes('inválida') || err.message.includes('401')) {
-      localStorage.removeItem('groq_key');
-      document.getElementById('ai-key-input').value = '';
+    btn.textContent = 'Tentar novamente';
+    if (err.authFail) {
+      localStorage.removeItem(KEY_STORE);
+      keyInp.value = '';
       document.getElementById('ai-key-saved').style.display = 'none';
       document.getElementById('ai-key-panel').scrollIntoView({ behavior: 'smooth' });
     }
